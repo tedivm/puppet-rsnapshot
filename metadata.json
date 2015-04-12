@@ -1,0 +1,14 @@
+{
+  "name": "tedivm-rsnapshot",
+  "version": "0.1.0",
+  "author": "tedivm",
+  "summary": null,
+  "license": "MIT",
+  "source": "https://github.com/tedivm/puppet-rsnapshot",
+  "project_page": "https://github.com/tedivm/puppet-rsnapshot",
+  "issues_url": "https://github.com/tedivm/puppet-rsnapshot/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
