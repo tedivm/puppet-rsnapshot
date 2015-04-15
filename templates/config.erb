@@ -1,0 +1,40 @@
+#
+# THIS FILE IS MANAGED BY PUPPET AND ANY CHANGES WILL BE REVERTED
+#
+#################################################
+# rsnapshot.conf - rsnapshot configuration file #
+#################################################
+#                                               #
+# PLEASE BE AWARE OF THE FOLLOWING RULES:       #
+#                                               #
+# This file requires tabs between elements      #
+#                                               #
+# Directories require a trailing slash:         #
+#   right: /home/                               #
+#   wrong: /home                                #
+#                                               #
+#################################################
+
+#######################
+# CONFIG FILE VERSION #
+#######################
+
+config_version	1.2
+
+###########################
+# SNAPSHOT ROOT DIRECTORY #
+###########################
+
+# All snapshots will be stored under this root directory.
+#
+snapshot_root	<%= @backup_dir_final %>
+
+
+
+###############################
+### BACKUP POINTS / SCRIPTS ###
+###############################
+
+<% directories.each do |source_dir| -%>
+backup	<%= @user %>@<%= @host %>:<%= source_dir %>	
+<% end -%>
