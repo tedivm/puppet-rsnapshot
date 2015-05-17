@@ -8,8 +8,11 @@ define rsnapshot::client::backup_point (
   ) {
 
   $backup_dir_final = "${backup_dir}/${host}"
-  file_line { 'dir':
-    path => $config_file,
-    content => template('rsnapshot/backup_point.erb')
+
+  concat::fragment { "${config_file}_entry_${source_dir}" :
+    target  => $config_file,
+    content => template('rsnapshot/backup_point.erb'),
+    order   => 20
   }
+
 }

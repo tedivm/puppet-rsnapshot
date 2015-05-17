@@ -50,11 +50,18 @@ define rsnapshot::server::config (
   $config_file = "${config_path}/${name}-rsnapshot.conf"
 
   # config file
-  file { $config_file :
-    ensure => file,
-    content => template('rsnapshot/config.erb')
+  concat { $config_file :
+    owner => $::rsnapshot::server::user,
+    group => $::rsnapshot::server::user,
+    mode  => '0644'
+    warn  => true
   }
 
+  concat::fragment { "${config_file}_header" :
+    target  => $config_file,
+    content => template('rsnapshot/config.erb'),
+    order   => 01
+  }
 
   rsnapshot::client::backup_point <<| host == $name |>> {
     config_file => $config_file,
