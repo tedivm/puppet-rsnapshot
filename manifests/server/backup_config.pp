@@ -1,4 +1,4 @@
-define rsnapshot::server::backup (
+define rsnapshot::server::backup_config (
   $config_file,
   $source_dir,
   $host,
