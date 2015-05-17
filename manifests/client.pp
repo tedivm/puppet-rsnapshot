@@ -36,8 +36,8 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class rsnapshot::client (
+  $server,
   $directories = {},
-  $server = undef,
   $user = $rsnapshot::params::client_user,
   $remote_user = $rsnapshot::params::server_user,
   $directories = {}
@@ -54,9 +54,10 @@ class rsnapshot::client (
   }
 
   # Export client object to get picked up by the server.
-  @@rsnapshot::client::config { $::fqdn:
-    $user = $rsnapshot::client::user,
-    $directories = $rsnapshot::client::directories
+  @@rsnapshot::server::config { $::fqdn:
+    'user' = $rsnapshot::client::user,
+    'directories' = $rsnapshot::client::directories,
+    'server' = $server
   }
 
 }
