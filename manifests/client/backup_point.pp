@@ -1,8 +1,8 @@
 define rsnapshot::client::backup_point (
   $config_file,
+  $source_dir = '',
   $host = $::fqdn,
   $user = $rsnapshot::params::client_backup_user,
-  $source_dir,
   $backup_dir = $rsnapshot::params::server_backup_path,
   $options = {},
   ) {

@@ -38,22 +38,27 @@
 class rsnapshot::server(
   $config_path = $rsnapshot::params::server_config_path,
   $log_path = $rsnapshot::params::server_log_path,
-  $user = 'root'
+  $user = $rsnapshot::params::server_user
   ) {
 
   include rsnapshot::server::install
 
   # Add logging folder
-  file { "${log_path}" :
-    ensure: directory
+  file { $log_path :
+    'ensure' => directory,
+    'owner'  => $user,
+    'group'  => $user
+
   }
 
   # Add config path
-  file { "${config_path}" :
-    ensure: directory
+  file { $config_path :
+    'ensure' => directory,
+    'owner'  => $user,
+    'group'  => $user
   }
 
-  rsnapshot::client::config <<| server == $fqdn |>> {
+  rsnapshot::client::config <<| server == $::fqdn |>> {
     $config_path = $rsnapshot::server::config_path,
     $log_path = $rsnapshot::server::log_path,
   }

@@ -47,9 +47,10 @@ class rsnapshot::client (
   include rsnapshot::client::install
 
   # Add User
-  class { "rsnapshot::client::user" :
+  class { 'rsnapshot::client::user' :
     remote_user => "${remote_user}@${server}",
-    local_user => $user
+    local_user  => $user,
+    server      => $server
   }
 
   # Export client object to get picked up by the server.
