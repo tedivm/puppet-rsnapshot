@@ -48,7 +48,6 @@ class rsnapshot::server(
     'ensure' => directory,
     'owner'  => $user,
     'group'  => $user
-
   }
 
   # Add config path
