@@ -26,8 +26,7 @@ config_version	1.2
 ###########################
 
 # All snapshots will be stored under this root directory.
-#
-snapshot_root	<%= @backup_dir_final %>
+snapshot_root	<%= @backup_dir %>/
 
 
 
@@ -36,5 +35,5 @@ snapshot_root	<%= @backup_dir_final %>
 ###############################
 
 <% directories.each do |source_dir| -%>
-backup	<%= @user %>@<%= @host %>:<%= source_dir %>	
+backup	<%= @user %>@<%= @host %>:<%= @source_dir %>/
 <% end -%>

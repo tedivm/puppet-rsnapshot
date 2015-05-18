@@ -37,6 +37,7 @@
 #
 class rsnapshot::server(
   $config_path = $rsnapshot::params::server_config_path,
+  $backup_path = $rsnapshot::params::server_backup_path,
   $log_path = $rsnapshot::params::server_log_path,
   $user = $rsnapshot::params::server_user
   ) {
@@ -57,9 +58,10 @@ class rsnapshot::server(
     'group'  => $user
   }
 
-  rsnapshot::client::config <<| server == $::fqdn |>> {
-    $config_path = $rsnapshot::server::config_path,
-    $log_path = $rsnapshot::server::log_path,
+  rsnapshot::server::config <<| server == $::fqdn |>> {
+    config_path = $rsnapshot::server::config_path,
+    log_path = $rsnapshot::server::log_path,
+    backup_dir = $rsnapshot::server::backup_path,
   }
 
 }

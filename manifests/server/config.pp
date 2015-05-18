@@ -1,6 +1,7 @@
 define rsnapshot::server::config (
-  $config_path = $rsnapshot::params::server_config_path,
+  $config_path = $rsnapshot::server::server_config_path,
   $log_path = $rsnapshot::params::server_log_path,
+  $backup_path = $rsnapshot::params::server_backup_path,
   $backup_user = $rsnapshot::params::client_backup_user,
   $directories = {}
   ) {

@@ -1,16 +1,13 @@
 define rsnapshot::server::backup_config (
   $config_file,
-  $source_dir,
+  $source_path,
   $host,
   $server,
   $user = $rsnapshot::params::client_backup_user,
-  $backup_dir = $rsnapshot::params::server_backup_path,
   $options = {},
   ) {
 
-  $backup_dir_final = "${backup_dir}/${host}"
-
-  concat::fragment { "${config_file}_entry_${source_dir}" :
+  concat::fragment { "${config_file}_entry_${source_path}" :
     target  => $config_file,
     content => template('rsnapshot/backup_point.erb'),
     order   => 20

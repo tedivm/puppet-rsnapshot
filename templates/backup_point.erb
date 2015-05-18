@@ -1,1 +1,1 @@
-backup	<%= @user %>@<%= @host %>:<%= @source_dir %>	<%= @backup_dir_final %>	<%= options.map{ |key, value| [key, "#{key}=#{value}"] }.join(',') %>
+backup	<%= @user %>@<%= @host %>:<%= @source_path %>	<%= @host %>	<%= options.map{ |key, value| [key, "#{key}=#{value}"] }.join(',') %>

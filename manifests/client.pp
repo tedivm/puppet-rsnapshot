@@ -40,7 +40,6 @@ class rsnapshot::client (
   $directories = {},
   $user = $rsnapshot::params::client_user,
   $remote_user = $rsnapshot::params::server_user,
-  $directories = {}
   ) {
 
   # Install
