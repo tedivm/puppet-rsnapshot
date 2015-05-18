@@ -28,12 +28,48 @@ config_version	1.2
 # All snapshots will be stored under this root directory.
 snapshot_root	<%= @backup_dir %>/
 
+#################################
+# EXTERNAL PROGRAM DEPENDENCIES #
+#################################
+
+<% @programs.each do |program,directory| -%>
+<%= @program %>	<%= @directory %>
+<% end -%>
+
+###########
+# OPTIONS #
+###########
+
+<% @options.each do |option,value| -%>
+  <%- if @value != nil -%>
+<%= @option %>	<%= @value %>
+  <%- end -%>
+<% end -%>
+
+#########################################
+#           BACKUP INTERVALS            #
+# Must be unique and in ascending order #
+# i.e. hourly, daily, weekly, monthly.  #
+#########################################
+
+<% if @retain_hourly > 0 %>
+retain		hourly	<%= @retain_hourly %>
+<% end %>
+<% if @retain_daily > 0 %>
+retain		daily	<%= @retain_daily %>
+<% end %>
+<% if @retain_weekly > 0 %>
+retain		retain_weekly	<%= @retain_weekly %>
+<% end %>
+<% if @retain_monthly > 0 %>
+retain		monthly	<%= @retain_monthly %>
+<% end %>
 
 
 ###############################
 ### BACKUP POINTS / SCRIPTS ###
 ###############################
 
-<% directories.each do |source_dir| -%>
+<% @directories.each do |source_dir| -%>
 backup	<%= @user %>@<%= @host %>:<%= @source_dir %>/
 <% end -%>

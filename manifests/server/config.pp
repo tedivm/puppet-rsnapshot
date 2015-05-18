@@ -50,6 +50,33 @@ define rsnapshot::server::config (
 
   $config_file = "${config_path}/${name}-rsnapshot.conf"
 
+  $programs = {
+    cmd_cp = $rsnapshot::server::cmd_cp,
+    cmd_rm = $rsnapshot::server::cmd_rm,
+    cmd_rsync = $rsnapshot::server::cmd_rsync,
+    cmd_ssh = $rsnapshot::server::cmd_ssh,
+    cmd_logger = $rsnapshot::server::cmd_logger,
+    cmd_du = $rsnapshot::server::cmd_du,
+    cmd_rsnapshot_diff = $rsnapshot::server::cmd_rsnapshot_diff,
+    linux_lvm_cmd_lvcreate = $rsnapshot::server::linux_lvm_cmd_lvcreate,
+    linux_lvm_cmd_lvremove = $rsnapshot::server::linux_lvm_cmd_lvremove,
+    linux_lvm_cmd_mount = $rsnapshot::server::linux_lvm_cmd_mount,
+    linux_lvm_cmd_umount = $rsnapshot::server::linux_lvm_cmd_umount,
+  }
+
+  $options = {
+    lockfile = "${rsnapshot::server::lock_path}${name}",
+    logfile = "${rsnapshot::server::log_path}${name}",
+    verbose = $rsnapshot::server::verbose,
+  }
+
+  $directories = {
+  }
+
+
+  $lockfile = "${rsnapshot::server::lock_path}${name}"
+  $logfile = "${rsnapshot::server::log_path}${name}"
+
   # config file
   concat { $config_file :
     owner => $::rsnapshot::server::user,
