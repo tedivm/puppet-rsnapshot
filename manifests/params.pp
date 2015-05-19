@@ -51,7 +51,19 @@ class rsnapshot::params {
       $log_path = '/var/log/'
     }
     default: {
-]
+      $cmd_cp = undef
+      $cmd_rm = undef
+      $cmd_rsync = '/usr/bin/rsync'
+      $cmd_ssh = undef
+      $cmd_logger = undef
+      $cmd_du = undef
+      $cmd_rsnapshot_diff = undef
+      $linux_lvm_cmd_lvcreate = undef
+      $linux_lvm_cmd_lvremove = undef
+      $linux_lvm_cmd_mount = undef
+      $linux_lvm_cmd_umount = undef
+      $lock_path = '/var/run/'
+      $log_path = '/var/log/'
     }
   }
 
