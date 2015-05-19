@@ -56,7 +56,7 @@ class rsnapshot::server(
     'ensure' => directory,
     'owner'  => $user,
     'group'  => $user
-  }
+  }->
 
   rsnapshot::server::config <<| server == $::fqdn |>> {
     config_path = $rsnapshot::server::config_path,
