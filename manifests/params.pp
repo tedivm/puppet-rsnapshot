@@ -28,10 +28,15 @@ class rsnapshot::params {
   $retain_weekly = 4
   $retain_monthly = 3
 
-
   $verbose = 2
   $loglevel = 3
   $logfile = '/var/log/'
+
+  $backup_hourly_cron = '*/2'
+  $backup_time_minute = fqdn_rand(59, 'rsnapshot_minute')
+  $backup_time_hour = fqdn_rand(23, 'rsnapshot_hour')
+  $backup_time_weekday = 6
+  $backup_time_dom = 15
 
 
   case $::osfamily {

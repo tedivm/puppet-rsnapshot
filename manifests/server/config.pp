@@ -3,6 +3,10 @@ define rsnapshot::server::config (
   $log_path = $rsnapshot::params::server_log_path,
   $backup_path = $rsnapshot::params::server_backup_path,
   $backup_user = $rsnapshot::params::client_backup_user,
+  $backup_time_minute = $rsnapshot::params::backup_time_minute,
+  $backup_time_hour = $rsnapshot::params::backup_time_hour,
+  $backup_time_weekday = $rsnapshot::params::backup_time_weekday,
+  $backup_time_dom = $rsnapshot::params::backup_time_dom,
   $directories = {}
   ) {
 
@@ -18,33 +22,33 @@ define rsnapshot::server::config (
     command => '/usr/local/bin/rsnapshot hourly',
     user    => 'root',
     hour    => */2,
-    minute  => 0
+    minute  => $backup_time_minute
   } ->
 
   ## daily
   cron { "rsnapshot-${name}-daily" :
     command => '/usr/local/bin/rsnapshot daily',
     user    => 'root',
-    hour    => 3,
-    minute  => 0
+    hour    => $backup_time_hour,
+    minute  => $backup_time_minute
   } ->
 
   ## weekly
   cron { "rsnapshot-${name}-weekly" :
     command => '/usr/local/bin/rsnapshot weekly',
     user    => 'root',
-    hour    => 4,
-    minute  => 0,
-    weekday => 6
+    hour    => ($backup_time_hour + 3) % 24,
+    minute  => $backup_time_minute,
+    weekday => $backup_time_weekday
   } ->
 
   ## monthly
   cron { "rsnapshot-${name}-monthly" :
     command  => '/usr/local/bin/rsnapshot monthly',
     user     => 'root',
-    hour     => 5,
-    minute   => 0,
-    monthday => 1
+    hour     => ($backup_time_hour + 6) % 24,
+    minute   => $backup_time_minute,
+    monthday => $backup_time_dom
   }
 
 

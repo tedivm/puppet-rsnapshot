@@ -40,7 +40,12 @@ class rsnapshot::client (
   $directories = {},
   $user = $rsnapshot::params::client_user,
   $remote_user = $rsnapshot::params::server_user,
-  ) {
+  $backup_hourly_cron = $rsnapshot::params::backup_hourly_cron,
+  $backup_time_minute = $rsnapshot::params::backup_time_minute,
+  $backup_time_hour = $rsnapshot::params::backup_time_hour,
+  $backup_time_weekday = $rsnapshot::params::backup_time_weekday,
+  $backup_time_dom = $rsnapshot::params::backup_time_dom
+  ) inherits rsnapshot::params {
 
   # Install
   include rsnapshot::client::install
@@ -54,9 +59,14 @@ class rsnapshot::client (
 
   # Export client object to get picked up by the server.
   @@rsnapshot::server::config { $::fqdn:
-    'user' = $rsnapshot::client::user,
-    'directories' = $rsnapshot::client::directories,
-    'server' = $server
+    'user'                => $rsnapshot::client::user,
+    'directories'         => $rsnapshot::client::directories,
+    'server'              => $server,
+    'backup_hourly_cron'  => $backup_hourly_cron,
+    'backup_time_minute'  => $backup_time_minute,
+    'backup_time_hour'    => $backup_time_hour,
+    'backup_time_weekday' => $backup_time_weekday,
+    'backup_time_dom'     => $backup_time_dom
   }
 
 }
