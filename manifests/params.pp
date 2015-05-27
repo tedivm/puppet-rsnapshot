@@ -11,6 +11,9 @@
 # Sample Usage:
 #
 class rsnapshot::params {
+
+  $use_sudo = true
+
   $server_packages = [ 'rsnapshot' ]
   $client_packages = [ 'rsync' ]
   $client_user = 'backshots'
@@ -45,6 +48,13 @@ class rsnapshot::params {
   $backup_time_hour = fqdn_rand(23, 'rsnapshot_hour')
   $backup_time_weekday = 6
   $backup_time_dom = 15
+
+
+  $rsync_short_args = '-a'
+  $rsync_long_args = '--delete --numeric-ids --relative --delete-excluded'
+  $ssh_args = '-p 22'
+  $du_args = '-csh'
+
 
 
   case $::osfamily {

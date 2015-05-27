@@ -35,12 +35,24 @@ define rsnapshot::server::config (
   $retain_daily = undef,
   $retain_weekly = undef,
   $retain_monthly = undef,
-  $one_fs = undef
+  $one_fs = undef,
+  $rsync_short_args = undef,
+  $rsync_long_args = undef,
+  $ssh_args = undef,
+  $du_args = undef,
+  $use_sudo = undef
   ) {
 
   $log_file = "${log_path}/${name}-rsnapshot.log"
   $lock_file = "$lock_path}/${name}-rsnapshot.pid"
   $config_file = "${config_path}/${name}-rsnapshot.conf"
+
+
+  if($use_sudo) {
+    $rsync_long_args_final = "$rsync_long_args --rsync-path=\"sudo rsync\""
+  } else {
+    $rsync_long_args_final = $rsync_long_args
+  }
 
   file { $log_file :
     ensure  => present,
@@ -111,6 +123,10 @@ define rsnapshot::server::config (
     cmd_preexec = $cmd_preexec,
     cmd_postexec = $cmd_postexec,
     one_fs = $one_fs,
+    rsync_short_args = $rsync_short_args,
+    rsync_long_args = $rsync_long_args_final,
+    du_args = $du_args,
+    ssh_args = $ssh_args,
   }
 
   $lockfile = "${rsnapshot::server::lock_path}${name}"

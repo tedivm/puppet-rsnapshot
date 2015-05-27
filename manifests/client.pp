@@ -51,8 +51,11 @@ class rsnapshot::client (
   $retain_daily = $rsnapshot::params::retain_daily,
   $retain_weekly = $rsnapshot::params::retain_weekly,
   $retain_monthly = $rsnapshot::params::retain_monthly,
-  $one_fs = $rsnapshot::params::one_fs
-
+  $one_fs = $rsnapshot::params::one_fs,
+  $rsync_short_args = $rsnapshot::params::rsync_short_args,
+  $rsync_long_args = $rsnapshot::params::rsync_long_args,
+  $ssh_args = $rsnapshot::params::ssh_args,
+  $use_sudo = $rsnapshot::params::use_sudo,
   ) inherits rsnapshot::params {
 
   # Install
@@ -62,7 +65,8 @@ class rsnapshot::client (
   class { 'rsnapshot::client::user' :
     remote_user => "${remote_user}@${server}",
     local_user  => $user,
-    server      => $server
+    server      => $server,
+    use_sudo    => $use_sudo
   } ->
 
   # Export client object to get picked up by the server.
@@ -82,6 +86,10 @@ class rsnapshot::client (
     'retain_weekly'       => $retain_weekly,
     'retain_monthly'      => $retain_monthly,
     'one_fs'              => $one_fs
+    'rsync_short_args'    => $rsync_short_args,
+    'rsync_long_args'     => $rsync_long_args,
+    'ssh_args'            => $ssh_args,
+    'use_sudo'            => $ssh_args,
   }
 
 }
