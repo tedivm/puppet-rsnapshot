@@ -1,16 +1,48 @@
 define rsnapshot::server::config (
-  $config_path = $rsnapshot::server::server_config_path,
-  $log_path = $rsnapshot::params::server_log_path,
-  $backup_path = $rsnapshot::params::server_backup_path,
-  $backup_user = $rsnapshot::params::client_backup_user,
-  $backup_time_minute = $rsnapshot::params::backup_time_minute,
-  $backup_time_hour = $rsnapshot::params::backup_time_hour,
-  $backup_time_weekday = $rsnapshot::params::backup_time_weekday,
-  $backup_time_dom = $rsnapshot::params::backup_time_dom,
-  $directories = {}
+  $config_path = undef,
+  $log_path = undef,
+  $backup_path = undef,
+  $backup_user = undef,
+  $backup_time_minute = undef,
+  $backup_time_hour = undef,
+  $backup_time_weekday = undef,
+  $backup_time_dom = undef,
+  $directories = {},
+  $config_path = undef,
+  $log_path = undef,
+  $lock_path = unfef,
+  $backup_dir = undef,
+  $remote_user = undef,
+  $no_create_root = undef,
+  $verbose = undef,
+  $loglevel = undef,
+  $link_dest = undef,
+  $sync_first = undef,
+  $use_lazy_deletes = undef,
+  $rsync_numtries = undef,
+  $stop_on_stale_lockfile = undef,
+  $user = undef,
+  $directories = undef,
+  $server = undef,
+  $backup_hourly_cron = undef,
+  $backup_time_minute = undef,
+  $backup_time_hour = undef,
+  $backup_time_weekday = undef,
+  $backup_time_dom = undef,
+  $cmd_preexec = undef,
+  $cmd_postexec = undef,
+  $retain_hourly = undef,
+  $retain_daily = undef,
+  $retain_weekly = undef,
+  $retain_monthly = undef,
+  $one_fs = undef
   ) {
 
-  file { "${log_path}/${name}-rsnapshot.log" :
+  $log_file = "${log_path}/${name}-rsnapshot.log"
+  $lock_file = "$lock_path}/${name}-rsnapshot.pid"
+  $config_file = "${config_path}/${name}-rsnapshot.conf"
+
+  file { $log_file :
     ensure  => present,
     require => File[$log_path]
   } ->
@@ -51,9 +83,6 @@ define rsnapshot::server::config (
     monthday => $backup_time_dom
   }
 
-
-  $config_file = "${config_path}/${name}-rsnapshot.conf"
-
   $programs = {
     cmd_cp = $rsnapshot::server::cmd_cp,
     cmd_rm = $rsnapshot::server::cmd_rm,
@@ -69,14 +98,20 @@ define rsnapshot::server::config (
   }
 
   $options = {
-    lockfile = "${rsnapshot::server::lock_path}${name}",
-    logfile = "${rsnapshot::server::log_path}${name}",
-    verbose = $rsnapshot::server::verbose,
+    lockfile = $lock_file,
+    logfile = $log_file,
+    no_create_root = $no_create_root,
+    verbose = $verbose,
+    loglevel = $loglevel,
+    link_dest = $link_dest,
+    sync_first = $sync_first,
+    use_lazy_deletes = $use_lazy_deletes,
+    rsync_numtries = $rsync_numtries,
+    stop_on_stale_lockfile = $stop_on_stale_lockfile,
+    cmd_preexec = $cmd_preexec,
+    cmd_postexec = $cmd_postexec,
+    one_fs = $one_fs,
   }
-
-  $directories = {
-  }
-
 
   $lockfile = "${rsnapshot::server::lock_path}${name}"
   $logfile = "${rsnapshot::server::log_path}${name}"

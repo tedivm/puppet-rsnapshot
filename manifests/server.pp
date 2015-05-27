@@ -39,8 +39,17 @@ class rsnapshot::server(
   $config_path = $rsnapshot::params::server_config_path,
   $backup_path = $rsnapshot::params::server_backup_path,
   $log_path = $rsnapshot::params::server_log_path,
-  $user = $rsnapshot::params::server_user
-  ) {
+  $user = $rsnapshot::params::server_user,
+  $no_create_root = $rsnapshot::params::no_create_root,
+  $verbose = $rsnapshot::params::verbose,
+  $loglevel = $rsnapshot::params::loglevel,
+  $link_dest = $rsnapshot::params::link_dest,
+  $sync_first = $rsnapshot::params::sync_first,
+  $use_lazy_deletes = $rsnapshot::params::use_lazy_deletes,
+  $rsync_numtries = $rsnapshot::params::rsync_numtries,
+  $stop_on_stale_lockfile = $rsnapshot::params::stop_on_stale_lockfile,
+
+  ) inherits rsnapshot::params {
 
   include rsnapshot::server::install
 
@@ -59,9 +68,19 @@ class rsnapshot::server(
   }->
 
   rsnapshot::server::config <<| server == $::fqdn |>> {
-    config_path = $rsnapshot::server::config_path,
-    log_path = $rsnapshot::server::log_path,
-    backup_dir = $rsnapshot::server::backup_path,
+    'config_path'            => $rsnapshot::server::config_path,
+    'log_path'               => $rsnapshot::server::log_path,
+    'lock_path'              => $rsnapshot::server::lock_path,
+    'backup_dir'             => $rsnapshot::server::backup_path,
+    'remote_user'            => $rsnapshot::server::user,
+    'no_create_root'         => $rsnapshot::server::no_create_root,
+    'verbose'                => $rsnapshot::server::verbose,
+    'loglevel'               => $rsnapshot::server::loglevel,
+    'link_dest'              => $rsnapshot::server::link_dest,
+    'sync_first'             => $rsnapshot::server::sync_first,
+    'use_lazy_deletes'       => $rsnapshot::server::use_lazy_deletes,
+    'rsync_numtries'         => $rsnapshot::server::rsync_numtries,
+    'stop_on_stale_lockfile' => $rsnapshot::server::stop_on_stale_lockfile,
   }
 
 }

@@ -41,7 +41,7 @@ snapshot_root	<%= @backup_dir %>/
 ###########
 
 <% @options.each do |option,value| -%>
-  <%- if @value != nil -%>
+  <%- if @value != undef -%>
 <%= @option %>	<%= @value %>
   <%- end -%>
 <% end -%>
@@ -59,7 +59,7 @@ retain		hourly	<%= @retain_hourly %>
 retain		daily	<%= @retain_daily %>
 <% end %>
 <% if @retain_weekly > 0 %>
-retain		retain_weekly	<%= @retain_weekly %>
+retain		weekly	<%= @retain_weekly %>
 <% end %>
 <% if @retain_monthly > 0 %>
 retain		monthly	<%= @retain_monthly %>

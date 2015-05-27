@@ -15,6 +15,7 @@ class rsnapshot::params {
   $client_packages = [ 'rsync' ]
   $client_user = 'backshots'
   $server_user = 'root'
+
   $server_log_path = '/var/log/rsnapshot'
   $server_config_path = '/etc/rsnapshot'
   $server_backup_path = '/backups/rsnapshot'
@@ -30,7 +31,14 @@ class rsnapshot::params {
 
   $verbose = 2
   $loglevel = 3
-  $logfile = '/var/log/'
+
+  $link_dest = 0
+  $sync_first = 0
+  $use_lazy_deletes = 0
+  $rsync_numtries = 0
+  $stop_on_stale_lockfile = 0
+  $one_fs = 0
+  $no_create_root = 1
 
   $backup_hourly_cron = '*/2'
   $backup_time_minute = fqdn_rand(59, 'rsnapshot_minute')
