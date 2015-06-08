@@ -81,7 +81,7 @@ class rsnapshot::server(
     'use_lazy_deletes'       => $rsnapshot::server::use_lazy_deletes,
     'rsync_numtries'         => $rsnapshot::server::rsync_numtries,
     'stop_on_stale_lockfile' => $rsnapshot::server::stop_on_stale_lockfile,
-    'du_args' => $rsnapshot::server::du_args,
+    'du_args'                => $rsnapshot::server::du_args,
   }
 
 }
