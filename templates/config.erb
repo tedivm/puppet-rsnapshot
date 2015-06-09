@@ -33,7 +33,7 @@ snapshot_root	<%= @backup_dir %>/
 #################################
 
 <% @programs.each do |program,directory| -%>
-<%= @program %>	<%= @directory %>
+<%= program %>	<%= directory %>
 <% end -%>
 
 ###########
@@ -41,8 +41,8 @@ snapshot_root	<%= @backup_dir %>/
 ###########
 
 <% @options.each do |option,value| -%>
-  <%- if @value != undef -%>
-<%= @option %>	<%= @value %>
+  <%- if value.to_s != 'undef' -%>
+<%= option %>	<%= value %>
   <%- end -%>
 <% end -%>
 
@@ -52,16 +52,16 @@ snapshot_root	<%= @backup_dir %>/
 # i.e. hourly, daily, weekly, monthly.  #
 #########################################
 
-<% if @retain_hourly > 0 %>
+<% if @retain_hourly.to_i > 0 %>
 retain		hourly	<%= @retain_hourly %>
 <% end %>
-<% if @retain_daily > 0 %>
+<% if @retain_daily.to_i > 0 %>
 retain		daily	<%= @retain_daily %>
 <% end %>
-<% if @retain_weekly > 0 %>
+<% if @retain_weekly.to_i > 0 %>
 retain		weekly	<%= @retain_weekly %>
 <% end %>
-<% if @retain_monthly > 0 %>
+<% if @retain_monthly.to_i > 0 %>
 retain		monthly	<%= @retain_monthly %>
 <% end %>
 
