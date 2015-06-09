@@ -67,7 +67,7 @@ class rsnapshot::client (
     local_user  => $user,
     server      => $server,
     use_sudo    => $use_sudo
-  } ->
+  }
 
   # Export client object to get picked up by the server.
   @@rsnapshot::server::config { $::fqdn:
