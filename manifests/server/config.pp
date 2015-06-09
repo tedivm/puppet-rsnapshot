@@ -65,7 +65,7 @@ define rsnapshot::server::config (
   cron { "rsnapshot-${name}-hourly" :
     command => '/usr/local/bin/rsnapshot hourly',
     user    => 'root',
-    hour    => */2,
+    hour    => $backup_hourly_cron,
     minute  => $backup_time_minute
   } ->
 
