@@ -71,5 +71,5 @@ retain		monthly	<%= @retain_monthly %>
 ###############################
 
 <% @directories.each do |source_dir| -%>
-backup	<%= @user %>@<%= @host %>:<%= @source_dir %>/
+backup	<%= @user %>@<%= @host %>:<%= source_dir %>/
 <% end -%>
