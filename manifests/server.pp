@@ -67,7 +67,7 @@ class rsnapshot::server(
     group  => $user
   }->
 
-  rsnapshot::server::config <<| server == $::fqdn |>> {
+  Rsnapshot::Server::Config <<| server == $::fqdn |>> {
     config_path            => $rsnapshot::server::config_path,
     log_path               => $rsnapshot::server::log_path,
     lock_path              => $rsnapshot::server::lock_path,
