@@ -91,7 +91,7 @@ class rsnapshot::client (
     rsync_short_args    => $rsync_short_args,
     rsync_long_args     => $rsync_long_args,
     ssh_args            => $ssh_args,
-    use_sudo            => $ssh_args,
+    use_sudo            => $use_sudo,
   }
 
 }
