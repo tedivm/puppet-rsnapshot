@@ -15,7 +15,7 @@ define rsnapshot::server::config (
   $remote_user = undef,
   $no_create_root = undef,
   $verbose = undef,
-  $loglevel = undef,
+  $log_level = undef,
   $link_dest = undef,
   $sync_first = undef,
   $use_lazy_deletes = undef,

@@ -33,7 +33,7 @@ class rsnapshot::params {
   $retain_monthly = 3
 
   $verbose = 2
-  $loglevel = 3
+  $log_level = 3
 
   $link_dest = 0
   $sync_first = 0

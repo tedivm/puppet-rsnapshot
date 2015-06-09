@@ -42,7 +42,7 @@ class rsnapshot::server(
   $user = $rsnapshot::params::server_user,
   $no_create_root = $rsnapshot::params::no_create_root,
   $verbose = $rsnapshot::params::verbose,
-  $loglevel = $rsnapshot::params::loglevel,
+  $log_level = $rsnapshot::params::log_level,
   $link_dest = $rsnapshot::params::link_dest,
   $sync_first = $rsnapshot::params::sync_first,
   $use_lazy_deletes = $rsnapshot::params::use_lazy_deletes,
