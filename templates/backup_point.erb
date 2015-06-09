@@ -1,1 +1,1 @@
-backup	<%= @user %>@<%= @host %>:<%= @source_path %>/<%= "\t" %>
+backup	<%= @user %>@<%= @host %>:<%= @source_path.gsub(/\/$/, '') %>/<%= "\t" %>
