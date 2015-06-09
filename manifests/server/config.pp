@@ -44,15 +44,21 @@ define rsnapshot::server::config (
   ) {
 
   $log_file = "${log_path}/${name}-rsnapshot.log"
-  $lock_file = "$lock_path}/${name}-rsnapshot.pid"
+  $lock_file = "${lock_path}/${name}-rsnapshot.pid"
   $config_file = "${config_path}/${name}-rsnapshot.conf"
-
+  $snapshot_root = "${backup_path}/${name}"
 
   if($use_sudo) {
     $rsync_long_args_final = "$rsync_long_args --rsync-path=\"sudo rsync\""
   } else {
     $rsync_long_args_final = $rsync_long_args
   }
+
+
+  file { $snapshot_root :
+    ensure  => directory,
+    require => File[$backup_path]
+  } ->
 
   file { $log_file :
     ensure  => present,
