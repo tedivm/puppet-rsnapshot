@@ -41,7 +41,6 @@ class rsnapshot::params {
   $rsync_numtries = 0
   $stop_on_stale_lockfile = 0
   $one_fs = 0
-  $no_create_root = 1
 
   $backup_hourly_cron = '*/2'
   $backup_time_minute = fqdn_rand(59, 'rsnapshot_minute')
