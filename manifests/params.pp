@@ -13,7 +13,8 @@
 class rsnapshot::params {
 
   $use_sudo = true
-
+  $push_ssh_key = true
+  
   $server_packages = [ 'rsnapshot' ]
   $client_packages = [ 'rsync' ]
   $client_user = 'backshots'

@@ -56,6 +56,7 @@ class rsnapshot::client (
   $rsync_long_args = $rsnapshot::params::rsync_long_args,
   $ssh_args = $rsnapshot::params::ssh_args,
   $use_sudo = $rsnapshot::params::use_sudo,
+  $push_ssh_key = $rsnapshot::params::push_ssh_key,
   ) inherits rsnapshot::params {
 
   # Install
@@ -63,10 +64,11 @@ class rsnapshot::client (
 
   # Add User
   class { 'rsnapshot::client::user' :
-    remote_user => "${remote_user}@${server}",
-    local_user  => $user,
-    server      => $server,
-    use_sudo    => $use_sudo
+    remote_user  => "${remote_user}@${server}",
+    local_user   => $user,
+    server       => $server,
+    use_sudo     => $use_sudo,
+    push_ssh_key => $push_ssh_key
   }
 
   # Export client object to get picked up by the server.

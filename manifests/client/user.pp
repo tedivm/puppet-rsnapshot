@@ -15,7 +15,7 @@ class rsnapshot::client::user (
   if $push_ssh_key {
     sshkeys::set_authorized_key { "${remote_user} to ${local_user}":
       local_user  => $local_user,
-      remote_user => "${remote_user}@${server}",
+      remote_user => $remote_user,
       require     => User[$local_user]
     }
   }
