@@ -11,7 +11,6 @@ define rsnapshot::server::config (
   $config_path = undef,
   $log_path = undef,
   $lock_path = unfef,
-  $backup_dir = undef,
   $remote_user = undef,
   $no_create_root = undef,
   $verbose = undef,

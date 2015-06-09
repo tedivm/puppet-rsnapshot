@@ -79,7 +79,7 @@ class rsnapshot::server(
     config_path            => $::rsnapshot::server::config_path,
     log_path               => $::rsnapshot::server::log_path,
     lock_path              => $::rsnapshot::server::lock_path,
-    backup_dir             => $::rsnapshot::server::backup_path,
+    backup_path            => $::rsnapshot::server::backup_path,
     remote_user            => $::rsnapshot::server::user,
     no_create_root         => $::rsnapshot::server::no_create_root,
     verbose                => $::rsnapshot::server::verbose,
