@@ -152,8 +152,7 @@ define rsnapshot::server::config (
   }
 
   Rsnapshot::Server::Backup_config <<| host == $name |>> {
-    config_file => $config_file,
-    user => $backup_user
+    config_file => $config_file
   }
 
 }
