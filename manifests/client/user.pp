@@ -9,9 +9,10 @@ class rsnapshot::client::user (
   # Setup User
   user { $local_user :
     ensure         => present,
+    home           => "/home/${local_user}",
     managehome     => true,
     purge_ssh_keys => true,
-    home           => "/home/${local_user}"
+    shell          => '/bin/bash',
   }
 
   ## Get Key for remote backup user
