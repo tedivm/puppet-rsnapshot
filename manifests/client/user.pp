@@ -22,7 +22,7 @@ class rsnapshot::client::user (
 
   # Add sudo config if needed.
   if $use_sudo {
-    sudo::conf { 'backup user':
+    sudo::conf { 'backup_user':
       priority => 99,
       content  => "${local_user} ALL= NOPASSWD: /usr/bin/rsync",
       require  => User[$local_user]
