@@ -43,10 +43,10 @@ define rsnapshot::server::config (
   ) {
 
   # Remove trailing slashes.
-  $log_path_norm = regsubst($log_path, '/\/$/', '')
-  $lock_path_norm = regsubst($lock_path, '/\/$/', '')
-  $config_path_norm = regsubst($config_path, '/\/$/', '')
-  $backup_path_norm = regsubst($backup_path, '/\/$/', '')
+  $log_path_norm = regsubst($log_path, '\/$', '')
+  $lock_path_norm = regsubst($lock_path, '\/$', '')
+  $config_path_norm = regsubst($config_path, '\/$', '')
+  $backup_path_norm = regsubst($backup_path, '\/$', '')
 
   $log_file = "${log_path_norm}/${name}-rsnapshot.log"
   $lock_file = "${lock_path_norm}/${name}-rsnapshot.pid"
