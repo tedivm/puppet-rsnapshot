@@ -30,6 +30,8 @@ define rsnapshot::server::config (
   $backup_time_dom = undef,
   $cmd_preexec = undef,
   $cmd_postexec = undef,
+  $cmd_client_rsync = undef,
+  $cmd_client_sudo = undef,
   $retain_hourly = undef,
   $retain_daily = undef,
   $retain_weekly = undef,
@@ -54,7 +56,7 @@ define rsnapshot::server::config (
   $snapshot_root = "${backup_path_norm}/${name}"
 
   if($use_sudo) {
-    $rsync_long_args_final = "$rsync_long_args --rsync-path=\"sudo rsync\""
+    $rsync_long_args_final = "${rsync_long_args} --rsync-path=\"${cmd_client_sudo} ${cmd_client_rsync}\""
   } else {
     $rsync_long_args_final = $rsync_long_args
   }

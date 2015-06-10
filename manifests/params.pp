@@ -63,6 +63,8 @@ class rsnapshot::params {
       $cmd_cp = '/bin/cp'
       $cmd_rm = '/bin/rm'
       $cmd_rsync = '/usr/bin/rsync'
+      $cmd_client_rsync = '/usr/bin/rsync'
+      $cmd_client_sudo = '/usr/bin/sudo'
       $cmd_ssh = '/usr/bin/ssh'
       $cmd_logger = '/usr/bin/logger'
       $cmd_du = '/usr/bin/du'
@@ -79,6 +81,8 @@ class rsnapshot::params {
       $cmd_cp = undef
       $cmd_rm = undef
       $cmd_rsync = '/usr/bin/rsync'
+      $cmd_client_rsync = '/usr/bin/rsync'
+      $cmd_client_sudo = '/usr/bin/sudo'
       $cmd_ssh = undef
       $cmd_logger = undef
       $cmd_du = undef

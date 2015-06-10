@@ -83,6 +83,8 @@ class rsnapshot::client (
     backup_time_dom     => $backup_time_dom,
     cmd_preexec         => $cmd_preexec,
     cmd_postexec        => $cmd_postexec,
+    cmd_client_rsync    => $cmd_client_rsync,
+    cmd_client_sudo     => $cmd_client_sudo,
     retain_hourly       => $retain_hourly,
     retain_daily        => $retain_daily,
     retain_weekly       => $retain_weekly,
