@@ -14,7 +14,7 @@ class rsnapshot::params {
 
   $use_sudo = true
   $push_ssh_key = true
-  
+
   $server_packages = [ 'rsnapshot' ]
   $client_packages = [ 'rsync' ]
   $client_user = 'backshots'
@@ -59,6 +59,7 @@ class rsnapshot::params {
 
   case $::osfamily {
     debian: {
+      $cmd_rsnapshot = '/usr/bin/rsnapshot'
       $cmd_cp = '/bin/cp'
       $cmd_rm = '/bin/rm'
       $cmd_rsync = '/usr/bin/rsync'
@@ -74,6 +75,7 @@ class rsnapshot::params {
       $log_path = '/var/log/'
     }
     default: {
+      $cmd_rsnapshot = '/usr/local/bin/rsnapshot'
       $cmd_cp = undef
       $cmd_rm = undef
       $cmd_rsync = '/usr/bin/rsync'
