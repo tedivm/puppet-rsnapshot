@@ -67,8 +67,8 @@ class rsnapshot::params {
       $cmd_logger = '/usr/bin/logger'
       $cmd_du = '/usr/bin/du'
       $cmd_rsnapshot_diff = '/usr/bin/rsnapshot-diff'
-      $linux_lvm_cmd_lvcreate = '/sbin/lvcreate'
-      $linux_lvm_cmd_lvremove = '/sbin/lvremove'
+      $linux_lvm_cmd_lvcreate = undef
+      $linux_lvm_cmd_lvremove = undef
       $linux_lvm_cmd_mount = '/bin/mount'
       $linux_lvm_cmd_umount = '/bin/umount'
       $lock_path = '/var/run/'

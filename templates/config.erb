@@ -33,7 +33,9 @@ snapshot_root	<%= @snapshot_root %>/
 #################################
 
 <% @programs.each do |program,directory| -%>
+  <%- if directory.to_s != 'undef' -%>
 <%= program %>	<%= directory %>
+  <%- end -%>
 <% end -%>
 
 ###########
