@@ -47,6 +47,8 @@ class rsnapshot::client (
   $backup_time_dom = $rsnapshot::params::backup_time_dom,
   $cmd_preexec = $rsnapshot::params::cmd_preexec,
   $cmd_postexec = $rsnapshot::params::cmd_postexec,
+  $cmd_client_rsync = $rsnapshot::params::cmd_client_rsync,
+  $cmd_client_sudo = $rsnapshot::params::cmd_client_sudo,
   $retain_hourly = $rsnapshot::params::retain_hourly,
   $retain_daily = $rsnapshot::params::retain_daily,
   $retain_weekly = $rsnapshot::params::retain_weekly,
