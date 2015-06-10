@@ -74,7 +74,7 @@ define rsnapshot::server::config (
 
   ## hourly
   cron { "rsnapshot-${name}-hourly" :
-    command => '/usr/local/bin/rsnapshot hourly',
+    command => "/usr/local/bin/rsnapshot -c ${config_file} hourly",
     user    => 'root',
     hour    => $backup_hourly_cron,
     minute  => $backup_time_minute
@@ -82,7 +82,7 @@ define rsnapshot::server::config (
 
   ## daily
   cron { "rsnapshot-${name}-daily" :
-    command => '/usr/local/bin/rsnapshot daily',
+    command => "/usr/local/bin/rsnapshot -c ${config_file} daily",
     user    => 'root',
     hour    => $backup_time_hour,
     minute  => $backup_time_minute
@@ -90,7 +90,7 @@ define rsnapshot::server::config (
 
   ## weekly
   cron { "rsnapshot-${name}-weekly" :
-    command => '/usr/local/bin/rsnapshot weekly',
+    command => "/usr/local/bin/rsnapshot -c ${config_file} weekly",
     user    => 'root',
     hour    => ($backup_time_hour + 3) % 24,
     minute  => $backup_time_minute,
@@ -99,7 +99,7 @@ define rsnapshot::server::config (
 
   ## monthly
   cron { "rsnapshot-${name}-monthly" :
-    command  => '/usr/local/bin/rsnapshot monthly',
+    command  => "/usr/local/bin/rsnapshot -c ${config_file} monthly",
     user     => 'root',
     hour     => ($backup_time_hour + 6) % 24,
     minute   => $backup_time_minute,
