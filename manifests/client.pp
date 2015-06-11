@@ -59,19 +59,32 @@ class rsnapshot::client (
   $ssh_args = $rsnapshot::params::ssh_args,
   $use_sudo = $rsnapshot::params::use_sudo,
   $push_ssh_key = $rsnapshot::params::push_ssh_key,
+  $wrapper_path = $rsnapshot::params::wrapper_path,
+  $cmd_client_rsync = $rsnapshot::params::cmd_client_rsync,
+  $cmd_client_sudo = $rsnapshot::params::cmd_client_sudo,
   ) inherits rsnapshot::params {
 
   # Install
   include rsnapshot::client::install
 
+  $wrapper_path_normalized = regsubst($wrapper_path, '\/$', '')
+
   # Add User
   class { 'rsnapshot::client::user' :
-    remote_user  => "${remote_user}@${server}",
     local_user   => $user,
+    remote_user  => "${remote_user}@${server}",
     server       => $server,
     use_sudo     => $use_sudo,
-    push_ssh_key => $push_ssh_key
-  }
+    push_ssh_key => $push_ssh_key,
+    wrapper_path => $wrapper_path_normalized,    
+  }->
+
+  # Add Wrapper Scripts
+  class { 'rsnapshot::client::wrappers' :
+    wrapper_path     => $wrapper_path_normalized,
+    cmd_client_rsync => $cmd_client_rsync,
+    cmd_client_sudo  => $cmd_client_sudo,
+  }->
 
   # Export client object to get picked up by the server.
   @@rsnapshot::server::config { $::fqdn:
@@ -94,6 +107,7 @@ class rsnapshot::client (
     one_fs              => $one_fs,
     rsync_short_args    => $rsync_short_args,
     rsync_long_args     => $rsync_long_args,
+    wrapper_path        => $wrapper_path_normalized,
     ssh_args            => $ssh_args,
     use_sudo            => $use_sudo,
   }

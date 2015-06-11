@@ -3,8 +3,18 @@ class rsnapshot::client::user (
   $remote_user = '',
   $server = '',
   $use_sudo = true,
-  $push_ssh_key = true
+  $push_ssh_key = true,
+  $wrapper_path = '',
+  $wrapper_sudo = $rsnapshot::params::wrapper_sudo,
+  $wrapper_rsync_sender = $rsnapshot::params::wrapper_rsync_sender,
   ) {
+
+  $wrapper_path_norm = regsubst($wrapper_path, '\/$', '')
+  if($use_sudo) {
+    $allowed_command = "${wrapper_path_norm}/${wrapper_sudo}"
+  } else {
+    $allowed_command = "${wrapper_path_norm}/${wrapper_rsync_sender}"
+  }
 
 
   # Setup Group
@@ -24,10 +34,19 @@ class rsnapshot::client::user (
 
   ## Get Key for remote backup user
   if $push_ssh_key {
+    $backup_server_ip = inline_template("<% _erbout.concat(Resolv::DNS.open.getaddress('$server').to_s) %>"),
     sshkeys::set_authorized_key { "${remote_user} to ${local_user}":
       local_user  => $local_user,
       remote_user => $remote_user,
-      require     => User[$local_user]
+      require     => User[$local_user],
+      options     => [
+        "command=\"${allowed_command}\"",
+        'no-port-forwarding',
+        'no-agent-forwarding',
+        'no-X11-forwarding',
+        'no-pty',
+        "from=\"${backup_server_ip},${server}\""
+      ]
     }
   }
 
@@ -35,7 +54,7 @@ class rsnapshot::client::user (
   if $use_sudo {
     sudo::conf { 'backup_user':
       priority => 99,
-      content  => "${local_user} ALL= NOPASSWD: /usr/bin/rsync",
+      content  => "${local_user} ALL= NOPASSWD: ${wrapper_path}/rsync_sender.sh",
       require  => User[$local_user]
     }
   }

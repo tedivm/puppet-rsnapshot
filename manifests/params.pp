@@ -15,6 +15,9 @@ class rsnapshot::params {
   $use_sudo = true
   $push_ssh_key = true
 
+  $wrapper_rsync_sender = 'rsync_sender.sh'
+  $wrapper_sudo = 'rsync_sudo.sh'
+
   $server_packages = [ 'rsnapshot' ]
   $client_packages = [ 'rsync' ]
   $client_user = 'backshots'
@@ -55,7 +58,7 @@ class rsnapshot::params {
   $ssh_args = undef
   $du_args = '-csh'
 
-
+  $wrapper_path = '/opt/rsnapshot_wrappers/'
 
   case $::osfamily {
     debian: {

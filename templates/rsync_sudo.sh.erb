@@ -1,0 +1,2 @@
+#!/bin/bash -e
+exec <%= @cmd_client_sudo %> <%= @wrapper_path %>/rsync_sender.sh ${SSH_ORIGINAL_COMMAND#* }

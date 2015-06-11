@@ -30,8 +30,6 @@ define rsnapshot::server::config (
   $backup_time_dom = undef,
   $cmd_preexec = undef,
   $cmd_postexec = undef,
-  $cmd_client_rsync = undef,
-  $cmd_client_sudo = undef,
   $retain_hourly = undef,
   $retain_daily = undef,
   $retain_weekly = undef,
@@ -40,6 +38,7 @@ define rsnapshot::server::config (
   $rsync_short_args = undef,
   $rsync_long_args = undef,
   $ssh_args = undef,
+  $wrapper_path = undef,
   $du_args = undef,
   $use_sudo = undef
   ) {
@@ -49,17 +48,26 @@ define rsnapshot::server::config (
   $lock_path_norm = regsubst($lock_path, '\/$', '')
   $config_path_norm = regsubst($config_path, '\/$', '')
   $backup_path_norm = regsubst($backup_path, '\/$', '')
+  $wrapper_path_norm = regsubst($wrapper_path, '\/$', '')
 
   $log_file = "${log_path_norm}/${name}-rsnapshot.log"
   $lock_file = "${lock_path_norm}/${name}-rsnapshot.pid"
   $config_file = "${config_path_norm}/${name}-rsnapshot.conf"
   $snapshot_root = "${backup_path_norm}/${name}"
 
-  if($use_sudo) {
-    $rsync_long_args_final = "${rsync_long_args} --rsync-path=\"${cmd_client_sudo} ${cmd_client_rsync}\""
+  if($ssh_args) {
+    $ssh_args_processed = "-e 'ssh ${ssh_args}'"
   } else {
-    $rsync_long_args_final = $rsync_long_args
+    $ssh_args_processed = ''
   }
+
+  if($use_sudo) {
+    $rsync_wrapper_processed = "--rsync-path=\"${wrapper_path_norm}/rsync_sudo.sh\""
+  } else {
+    $rsync_wrapper_processed = "--rsync-path=\"${wrapper_path_norm}/rsync_sender.sh\""
+  }
+
+  $rsync_long_args_final = "${ssh_args_processed} ${rsync_long_args} ${rsync_wrapper_processed}"
 
 
   file { $snapshot_root :
@@ -139,7 +147,6 @@ define rsnapshot::server::config (
     rsync_short_args => $rsync_short_args,
     rsync_long_args => $rsync_long_args_final,
     du_args => $du_args,
-    ssh_args => $ssh_args,
   }
 
   $lockfile = "${rsnapshot::server::lock_path}${name}"
