@@ -7,7 +7,7 @@ class rsnapshot::client::user (
   ) {
 
 
-  Setup User
+  # Setup Group
   group { $local_user :
     ensure         => present,
   } ->
