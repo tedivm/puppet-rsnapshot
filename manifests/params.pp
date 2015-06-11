@@ -68,7 +68,7 @@ class rsnapshot::params {
       $cmd_ssh = '/usr/bin/ssh'
       $cmd_logger = '/usr/bin/logger'
       $cmd_du = '/usr/bin/du'
-      $cmd_rsnapshot_diff = '/usr/bin/rsnapshot-diff'
+      $cmd_rsnapshot_diff = undef
       $linux_lvm_cmd_lvcreate = undef
       $linux_lvm_cmd_lvremove = undef
       $linux_lvm_cmd_mount = '/bin/mount'
