@@ -16,6 +16,7 @@ class rsnapshot::params {
   $push_ssh_key = true
 
   $wrapper_rsync_sender = 'rsync_sender.sh'
+  $wrapper_rsync_ssh = 'rsync_ssh.sh'
   $wrapper_sudo = 'rsync_sudo.sh'
 
   $server_packages = [ 'rsnapshot' ]

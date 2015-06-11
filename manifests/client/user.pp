@@ -7,13 +7,14 @@ class rsnapshot::client::user (
   $wrapper_path = '',
   $wrapper_sudo = $rsnapshot::params::wrapper_sudo,
   $wrapper_rsync_sender = $rsnapshot::params::wrapper_rsync_sender,
+  $wrapper_rsync_ssh = $rsnapshot::params::wrapper_rsync_ssh,
   ) {
 
   $wrapper_path_norm = regsubst($wrapper_path, '\/$', '')
   if($use_sudo) {
     $allowed_command = "${wrapper_path_norm}/${wrapper_sudo}"
   } else {
-    $allowed_command = "${wrapper_path_norm}/${wrapper_rsync_sender}"
+    $allowed_command = "${wrapper_path_norm}/${wrapper_rsync_ssh}"
   }
 
 
@@ -34,7 +35,7 @@ class rsnapshot::client::user (
 
   ## Get Key for remote backup user
   if $push_ssh_key {
-    $backup_server_ip = inline_template("<% _erbout.concat(Resolv::DNS.open.getaddress('$server').to_s) %>"),
+    $backup_server_ip = inline_template("<% _erbout.concat(Resolv::DNS.open.getaddress('$server').to_s) %>")
     sshkeys::set_authorized_key { "${remote_user} to ${local_user}":
       local_user  => $local_user,
       remote_user => $remote_user,

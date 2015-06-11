@@ -22,12 +22,20 @@ class rsnapshot::client::wrappers (
     mode  => '0755',
   }->
 
+  file { "$wrapper_path/${wrapper_rsync_ssh}" :
+    ensure  => present,
+    content => template("rsnapshot/${wrapper_rsync_ssh}.erb"),
+    owner => 'root',
+    group => 'root',
+    mode  => '0755',
+  }->
+
   file { "${wrapper_path}/${wrapper_sudo}" :
     ensure  => present,
     content => template("rsnapshot/${wrapper_sudo}.erb"),
     owner => 'root',
     group => 'root',
     mode  => '0755',
-  }->
+  }
 
 }
