@@ -40,12 +40,12 @@ class rsnapshot::params {
   $verbose = 2
   $log_level = 3
 
-  $link_dest = 0
-  $sync_first = 0
-  $use_lazy_deletes = 0
-  $rsync_numtries = 0
-  $stop_on_stale_lockfile = 0
-  $one_fs = 0
+  $link_dest = undef
+  $sync_first = undef
+  $use_lazy_deletes = undef
+  $rsync_numtries = undef
+  $stop_on_stale_lockfile = undef
+  $one_fs = undef
 
   $backup_hourly_cron = '*/2'
   $backup_time_minute = fqdn_rand(59, 'rsnapshot_minute')
