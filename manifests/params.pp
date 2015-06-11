@@ -52,7 +52,7 @@ class rsnapshot::params {
 
   $rsync_short_args = '-a'
   $rsync_long_args = '--delete --numeric-ids --relative --delete-excluded'
-  $ssh_args = '-p 22'
+  $ssh_args = undef
   $du_args = '-csh'
 
 
