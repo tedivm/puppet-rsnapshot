@@ -40,7 +40,10 @@ define rsnapshot::server::config (
   $ssh_args = undef,
   $wrapper_path = undef,
   $du_args = undef,
-  $use_sudo = undef
+  $use_sudo = undef,
+  $wrapper_sudo = $rsnapshot::params::wrapper_sudo,
+  $wrapper_rsync_sender = $rsnapshot::params::wrapper_rsync_sender,
+  $wrapper_rsync_ssh = $rsnapshot::params::wrapper_rsync_ssh,
   ) {
 
   # Remove trailing slashes.
@@ -62,9 +65,9 @@ define rsnapshot::server::config (
   }
 
   if($use_sudo) {
-    $rsync_wrapper_processed = "--rsync-path=\"${wrapper_path_norm}/rsync_sudo.sh\""
+    $rsync_wrapper_processed = "--rsync-path=\"${wrapper_path_norm}/${wrapper_sudo}\""
   } else {
-    $rsync_wrapper_processed = "--rsync-path=\"${wrapper_path_norm}/rsync_sender.sh\""
+    $rsync_wrapper_processed = "--rsync-path=\"${wrapper_path_norm}/${wrapper_rsync_ssh}\""
   }
 
   $rsync_long_args_final = "${ssh_args_processed} ${rsync_long_args} ${rsync_wrapper_processed}"
