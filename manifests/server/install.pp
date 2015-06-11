@@ -1,3 +1,3 @@
 class rsnapshot::server::install {
-  package { $rsnapshot::params::server_packages: }
+  ensure_packages { $rsnapshot::params::server_packages: }
 }
