@@ -76,7 +76,7 @@ class rsnapshot::client (
     server       => $server,
     use_sudo     => $use_sudo,
     push_ssh_key => $push_ssh_key,
-    wrapper_path => $wrapper_path_normalized,    
+    wrapper_path => $wrapper_path_normalized,
   }->
 
   # Add Wrapper Scripts
@@ -84,7 +84,7 @@ class rsnapshot::client (
     wrapper_path     => $wrapper_path_normalized,
     cmd_client_rsync => $cmd_client_rsync,
     cmd_client_sudo  => $cmd_client_sudo,
-  }->
+  }
 
   # Export client object to get picked up by the server.
   @@rsnapshot::server::config { $::fqdn:

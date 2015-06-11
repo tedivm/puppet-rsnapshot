@@ -1,3 +1,3 @@
 class rsnapshot::client::install {
-  ensure_packages { $rsnapshot::params::client_packages: }
+  ensure_packages($rsnapshot::params::client_packages)
 }
