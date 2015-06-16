@@ -68,7 +68,9 @@ utilizing common Puppet patterns.
 * Creates cron jobs for each client backup job.
 * Installs wrapper scripts on the client machine to improve security.
 * Creates directory for storing backups on the server.
-* (*Optional*) Transfers SSH key from server to client to enable ssh login.
+* (*Optional*) Creates an ssh key pair on the server if needed.
+* (*Optional*) Transfers SSH public key from server to client to enable ssh
+  login.
 * (*Optional*) Creates backup user and group on client machine.
 * (*Optional*) Adds backup user to sudo.
 
