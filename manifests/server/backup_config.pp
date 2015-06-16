@@ -6,7 +6,7 @@ define rsnapshot::server::backup_config (
   $user = $rsnapshot::params::client_backup_user,
   $options = {},
   ) {
-
+  assert_private()
   concat::fragment { "${config_file}_entry_${source_path}" :
     target  => $config_file,
     content => template('rsnapshot/backup_point.erb'),

@@ -10,6 +10,8 @@ class rsnapshot::client::user (
   $wrapper_rsync_ssh = $rsnapshot::params::wrapper_rsync_ssh,
   ) {
 
+  assert_private()
+  
   $wrapper_path_norm = regsubst($wrapper_path, '\/$', '')
   if($use_sudo) {
     $allowed_command = "${wrapper_path_norm}/${wrapper_sudo}"

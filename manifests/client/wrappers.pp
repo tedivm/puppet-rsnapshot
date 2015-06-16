@@ -4,12 +4,14 @@ class rsnapshot::client::wrappers (
   $cmd_client_sudo = $rsnapshot::params::cmd_client_sudo,
 ) inherits rsnapshot::params {
 
+  assert_private()
+
   $wrapper_rsync_sender = $rsnapshot::params::wrapper_rsync_sender
   $wrapper_sudo = $rsnapshot::params::wrapper_sudo
 
   file { $wrapper_path :
     ensure  => directory,
-    owner => 'root',
+    owner  => 'root',
     group => 'root',
     mode  => '0744',
   }->
