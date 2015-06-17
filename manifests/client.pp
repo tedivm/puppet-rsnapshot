@@ -60,8 +60,6 @@ class rsnapshot::client (
   $use_sudo = $rsnapshot::params::use_sudo,
   $push_ssh_key = $rsnapshot::params::push_ssh_key,
   $wrapper_path = $rsnapshot::params::wrapper_path,
-  $cmd_client_rsync = $rsnapshot::params::cmd_client_rsync,
-  $cmd_client_sudo = $rsnapshot::params::cmd_client_sudo,
   ) inherits rsnapshot::params {
 
   # Install
