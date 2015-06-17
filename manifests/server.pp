@@ -48,7 +48,7 @@ class rsnapshot::server(
   $use_lazy_deletes = $rsnapshot::params::use_lazy_deletes,
   $rsync_numtries = $rsnapshot::params::rsync_numtries,
   $stop_on_stale_lockfile = $rsnapshot::params::stop_on_stale_lockfile,
-  $du_args = '-csh'
+  $du_args = $rsnapshot::params::du_args,
   ) inherits rsnapshot::params {
 
   include rsnapshot::server::install
