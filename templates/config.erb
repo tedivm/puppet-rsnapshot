@@ -68,6 +68,34 @@ retain		monthly	<%= @retain_monthly %>
 <% end -%>
 
 
+##############################
+### INCLUDE / EXCUDE FILES ###
+##############################
+
+<% @includes.each do |value| -%>
+  <%- if value.to_s != 'undef' -%>
+include	<%= value %>
+  <%- end -%>
+<% end -%>
+
+<% @excludes.each do |value| -%>
+  <%- if value.to_s != 'undef' -%>
+exclude	<%= value %>
+  <%- end -%>
+<% end -%>
+
+<% @include_files.each do |value| -%>
+  <%- if value.to_s != 'undef' -%>
+include	<%= value %>
+  <%- end -%>
+<% end -%>
+
+<% @exclude_files.each do |value| -%>
+  <%- if value.to_s != 'undef' -%>
+exclude	<%= value %>
+  <%- end -%>
+<% end -%>
+
 ###############################
 ### BACKUP POINTS / SCRIPTS ###
 ###############################
