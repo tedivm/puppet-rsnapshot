@@ -272,11 +272,8 @@ rsnapshot::server::config { 'backupclient.example.com':
   one_fs                 => undef,
   rsync_short_args       => '-a',
   rsync_long_args        => '--delete --numeric-ids --relative --delete-excluded'
-  ssh_args               => undef,
-  wrapper_path           => '/opt/rsnapshot_wrappers/',
-  ssh_args               => undef,
   du_args                => '-csh',
-  use_sudo               => true,
+  use_sudo               => false,
 }  
 ```
 
@@ -317,9 +314,9 @@ included in the rsnapshot configuration.
 
 ##### Parameters
 
-* `source_path`: Description
-* `host`: Description
-* `options`: Description
+* `source_path`: The path to backup.
+* `host`: The host being backed up. Defaults to $::fqdn.
+* `options`: Options to be passed to rsnapshot.
 
 
 ### Class: `rsnapshot::client`
@@ -330,30 +327,41 @@ resource to the backup server.
 
 ##### Parameters
 
-* `server`: Description
-* `directories`: Description
-* `user`: Description
-* `remote_user`: Description
-* `backup_time_cron`: Description
-* `backup_time_minute`: Description
-* `backup_time_hour`: Description
-* `backup_time_weekday`: Description
-* `backup_time_dom`: Description
-* `cmd_preexec`: Description
-* `cmd_postexec`: Description
-* `cmd_client_rsync`: Description
-* `cmd_client_sudo`: Description
-* `retain_hourly`: Description
-* `retain_daily`: Description
-* `retain_weekly`: Description
-* `retain_monthly`: Description
-* `one_fs`: Description
-* `rsync_short_args`: Description
-* `rsync_long_args`: Description
-* `ssh_args`: Description
-* `use_sudo`: Description
-* `push_ssh_key`: Description
-* `wrapper_path`: Description
+* `server`: The server to backup to.
+* `directories`: The directories that should be backed up.
+* `includes`: An array of rsync "include" arguements.
+* `excludes`: An array of rsync "exclude" arguements.
+* `includes_files`: An array of rsync "include-files" arguements.
+* `excludes_files`: An array of rsync "exclude-files" arguements.
+* `user`: The client side user that handles backing up.
+* `remote_user`: The server side user that runs backups.
+* `backup_time_cron`: The cron descriptor (\*/2) to drive the hourly backup
+  script.
+* `backup_time_minute`: The minute that backups (of all intervals) should start.
+  This defaults to fqdn_rand, giving each host a unique start time.
+* `backup_time_hour`: The hour that daily backups should occur. This defaults to
+  fqdn_rand, giving each host a unique start time.
+* `backup_time_weekday`: The day that weekly backups should occur. This defaults
+  to fqdn_rand, giving each host a random weekday for backups.
+* `backup_time_dom`: The day of the month that monthly backups should occur.
+  This defaults to fqdn_rand, giving each host a random day of the month.
+* `cmd_preexec`: The path to any script that should run before backups.
+* `cmd_postexec`: The path to any script that should run after backups.
+* `cmd_client_rsync`: The path to the client side rsync binary.
+* `cmd_client_sudo`: The path to the client side sudo binary.
+* `retain_hourly`: The number of hourly backups to retain.
+* `retain_daily`: The number of daily backups to retain.
+* `retain_weekly`: The number of weekly backups to retain.
+* `retain_monthly`: The number of monthly backups to retain.
+* `one_fs`: Whether rsync should cross filesystem boundaries or not.
+* `rsync_short_args`: A list of short arguments to pass to rsync.
+* `rsync_long_args`: A list of long arguments to pass to rsync.
+* `ssh_args`: A list of arguments to pass to ssh.
+* `use_sudo`: If enabled sudo will be used instead of direct root access for
+  rsync.
+* `push_ssh_key`: If enabled the server's ssh key will be passed to this client.
+* `wrapper_path`: The path to store the various wrapper script in.
+
 
 ### Class: `rsnapshot::server`
 
@@ -362,20 +370,25 @@ packages and collecting the exported configurations from the client machines.
 
 ##### Parameters
 
-* `config_path`: Description
-* `backup_path`: Description
-* `log_path`: Description
-* `user`: Description
-* `no_create_root`: Description
-* `verbose`: Description
-* `log_level`: Description
-* `link_dest`: Description
-* `sync_first`: Description
-* `use_lazy_deletes`: Description
-* `rsync_numtries`: Description
-* `stop_on_stale_lockfile`: Description
-* `du_args`: Description
-
+* `config_path`: Directory to place the configuration files in.
+* `backup_path`: Directory to store all the backups in.
+* `log_path`: Directory to place the configuration files in.
+* `lock_path`: Directory to place the lock files in.
+* `user`: The server side user running the backup scripts.
+* `no_create_root`: Whether or not to create the rsnapshot backup directories.
+* `verbose`: A level, one through five, describing the level of information
+  outputted.
+* `log_level`: A level, one through five, describing the level of information
+  logged.
+* `link_dest`: Whether rsync supports the --link-dest flag or not.
+* `sync_first`: This requires syncing to occur with a seperate call to
+  rsnapshot. This is not recommended.
+* `use_lazy_deletes`: When enabled rsnapshot will move the oldest directory to
+  [interval].delete and remove it after syncing new backups
+* `rsync_numtries`: How many times to retry rsync after a failure.
+* `stop_on_stale_lockfile`: Enabling this stop rsnapshot if PID in lockfile is
+  not running
+* `du_args`: Arguments for the du program. GNU is preferred.
 
 
 ### Define: `rsnapshot::server::config`
@@ -387,14 +400,62 @@ an rsnapshot server to backup clients that are not controlled by puppet.
 
 ##### Parameters
 
-* `parameter`: Description
+* `config_path`: Directory to place the configuration files in.
+* `backup_path`: Directory to store all the backups in.
+* `log_path`: Directory to place the configuration files in.
+* `lock_path`: Directory to place the lock files in.
+* `backup_user`: The server side user running the backup scripts.
+* `remote_user`: The client side user the server uses to log in.
+* `directories`: The directories that should be backed up.
+* `lock_path`: Directory to place the lock files in.
+* `includes`: An array of rsync "include" arguements.
+* `excludes`: An array of rsync "exclude" arguements.
+* `includes_files`: An array of rsync "include-files" arguements.
+* `excludes_files`: An array of rsync "exclude-files" arguements.
+* `no_create_root`: Whether or not to create the rsnapshot backup directories.
+* `verbose`: A level, one through five, describing the level of information
+  outputted.
+* `log_level`: A level, one through five, describing the level of information
+  logged.
+* `link_dest`: Whether rsync supports the --link-dest flag or not.
+* `sync_first`: This requires syncing to occur with a seperate call to
+  rsnapshot. This is not recommended.
+* `use_lazy_deletes`: When enabled rsnapshot will move the oldest directory to
+  [interval].delete and remove it after syncing new backups
+* `rsync_numtries`: How many times to retry rsync after a failure.
+* `stop_on_stale_lockfile`: Enabling this stop rsnapshot if PID in lockfile is
+  not running
+* `server`: The server to backup to. Defaults to the current $::fqdn.
+* `backup_time_cron`: The cron descriptor (\*/2) to drive the hourly backup
+  script.
+* `backup_time_minute`: The minute that backups (of all intervals) should start.
+  This defaults to fqdn_rand, giving each host a unique start time.
+* `backup_time_hour`: The hour that daily backups should occur. This defaults to
+  fqdn_rand, giving each host a unique start time.
+* `backup_time_weekday`: The day that weekly backups should occur. This defaults
+  to fqdn_rand, giving each host a random weekday for backups.
+* `backup_time_dom`: The day of the month that monthly backups should occur.
+  This defaults to fqdn_rand, giving each host a random day of the month.
+* `cmd_preexec`: The path to any script that should run before backups.
+* `cmd_postexec`: The path to any script that should run after backups.
+* `retain_hourly`: The number of hourly backups to retain.
+* `retain_daily`: The number of daily backups to retain.
+* `retain_weekly`: The number of weekly backups to retain.
+* `retain_monthly`: The number of monthly backups to retain.
+* `one_fs`: Whether rsync should cross filesystem boundaries or not.
+* `rsync_short_args`: A list of short arguments to pass to rsync.
+* `rsync_long_args`: A list of long arguments to pass to rsync.
+* `ssh_args`: A list of arguments to pass to ssh.
+* `du_args`: Arguments for the du program. GNU is preferred.
+* `use_sudo`: If enabled sudo will be used instead of direct root access for
+  rsync.
+* `wrapper_path`: The path to store the various wrapper script in.
+* `wrapper_sudo`: The name of the sudo wrapper script.
+* `wrapper_rsync_sender`: The name of the rsync sender wrapper script.
+* `wrapper_rsync_ssh`: The name of the rsync ssh wrapper script.
 
-
-## Limitations
-
-This is where you list OS compatibility, version compatibility, etc.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+Contributions are always welcome. Please read the [Contributing Guide](CONTRIBUTING.md)
+to get started.
