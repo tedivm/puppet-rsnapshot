@@ -39,6 +39,7 @@ class rsnapshot::server(
   $config_path = $rsnapshot::params::server_config_path,
   $backup_path = $rsnapshot::params::server_backup_path,
   $log_path = $rsnapshot::params::server_log_path,
+  $lock_path = $rsnapshot::params::lock_path,
   $user = $rsnapshot::params::server_user,
   $no_create_root = $rsnapshot::params::no_create_root,
   $verbose = $rsnapshot::params::verbose,
