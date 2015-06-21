@@ -3,15 +3,28 @@
 #### Table of Contents
 
 1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with rsnapshot](#setup)
+2. [Module Description](#module-description)
+3. [Differences between this and other modules](#differences-between-this-and-other-modules)
+4. [Setup - The basics of getting started with rsnapshot](#setup)
     * [What rsnapshot affects](#what-rsnapshot-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with rsnapshot](#beginning-with-rsnapshot)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+5. [Usage - Configuration options and additional functionality](#usage)
+    * [Configuring the Server](#configuring-the-server)
+    * [Configuring the Client](#configuring-the-client)
+    * [Adding Backup Points to Profiles](#adding-backup-points-to-profiles)
+    * [Backing Up Machines Outside of Puppet](#backing-up-machines-outside-of-puppet)
+6. [Reference](#reference)
+    * [Public Classes](#public-classes)
+    * [Defines](#public-defines)
+    * [Private Classes](#private-classes)
+    * [Private Defines](#private-defines)
+7. [Resources](#resources)
+    * [Define rsnapshot::backup](#[define-rsnapshot-backup)
+    * [Class rsnapshot::client](#class-rsnapshot-client)
+    * [Class rsnapshot::server](#class-rsnapshot-server)
+    * [Define rsnapshot::server::config](#[define-rsnapshot-server-config)
+8. [Development](#development)
 
 ## Overview
 
@@ -138,7 +151,6 @@ class { 'rsnapshot::server':
 ```
 
 
-
 ### Configuring the Client
 
 Settings in the client class are specific to that one client node. The
@@ -181,7 +193,6 @@ class { 'rsnapshot::client':
   wrapper_path        => '/opt/rsnapshot_wrappers/',  
 }
 ```
-
 
 
 ### Adding Backup Points to Profiles
@@ -234,7 +245,6 @@ type. This object takes a combination of the rsnapshot::server and
 rsnapshot::client settings, and it will generate all of the configuration and
 the cronjobs needed to run backups.
 
-
 ```puppet
 rsnapshot::server::config { 'backupclient.example.com':
   server                 => $::fqdn,
@@ -278,9 +288,7 @@ rsnapshot::server::config { 'backupclient.example.com':
 ```
 
 
-
 ## Reference
-
 
 ### Public Classes
 
@@ -305,6 +313,8 @@ rsnapshot::server::config { 'backupclient.example.com':
 * `rsnapshot::server::backup_config`: Gets thrown and collected by the backup
    and config types.
 
+
+## Resources
 
 ### Define: `rsnapshot::backup`
 
