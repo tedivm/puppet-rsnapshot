@@ -20,10 +20,10 @@
     * [Private Classes](#private-classes)
     * [Private Defines](#private-defines)
 7. [Resources](#resources)
-    * [Define rsnapshot::backup](#[define-rsnapshot-backup)
-    * [Class rsnapshot::client](#class-rsnapshot-client)
-    * [Class rsnapshot::server](#class-rsnapshot-server)
-    * [Define rsnapshot::server::config](#[define-rsnapshot-server-config)
+    * [Define rsnapshot::backup](#[define-rsnapshotbackup)
+    * [Class rsnapshot::client](#class-rsnapshotclient)
+    * [Class rsnapshot::server](#class-rsnapshotserver)
+    * [Define rsnapshot::server::config](#[define-rsnapshotserverconfig)
 8. [Development](#development)
 
 ## Overview
