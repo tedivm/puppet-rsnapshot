@@ -48,27 +48,27 @@ utilizing common Puppet patterns.
 
 * **Client specific options instead of enforced globals.** Rather than rely on a
   single configuration file and monolithic backup runs this module uses stand
-  along configurations for each host. Besides being more resilient to errors,
-  this enables unique client settings- for instance, setting different retain
+  alone configurations for each host. Besides being more resilient to errors,
+  this enables unique client settings- for instance, using different retain
   settings for different hosts.
 
 * **Support for SSH without root access.** In most cases root login is not
   available over ssh for security reasons, so this module relies instead on
   having it's own unique user with locked down sudo access to give it the needed
-  access for backups.
+  access to perform backups.
 
 * **Support for automatic key sharing.** The client machine will automatically
   receive the ssh key from the server that it is backing up to.
 
 * **Locked down ssh accounts.** All ssh accounts are locked down. SSH keys can
-  only by used by the single backup host, without access to features like x
-  forwarding. Commands allowed by the ssh key are limited to specific wrapper
-  scripts installed by this module.
+  only by used by the single backup host, without access to unneeded features
+  like x-forwarding. Commands allowed by the ssh key are limited to specific
+  wrapper scripts installed by this module.
 
 * **Sender only rsync.** One of the biggest threats with rsync access is the
   potential to overwrite existing files on the system to gain unauthorized
   access. This module uses a wrapper script around rsync on the client side
-  which limits it to only being able to send data, not write it.
+  which essentially makes it read only.
 
 
 ## Setup
@@ -94,7 +94,7 @@ utilizing common Puppet patterns.
 * Storeconfigs needs to be enabled for configurations defined on the client side
   to be installed on the backup server.
 * Multiple puppet runs (client, then server, then client again) need to occur
-  for all resources to be creates.
+  for all resources to be created on both servers.
 
 
 ### Beginning with rsnapshot
@@ -202,7 +202,7 @@ define directories to backup outside of the `rsnapshot::client` class. This lets
 developers define backup points as resources inside other classes.
 
 For example, in a mysql profile it would make sense to backup the directory
-where the mysqldumps get stored. Instead of defining that using
+where the mysqldumps get stored. Instead of attempting to define that using
 `rsnapshot::client` it can be added directly in the mysql profile.
 
 ```puppet
@@ -216,7 +216,7 @@ class profiles::mysql {
   }->
 
   cron { 'vicarious_profiles_mysqldump':
-    command => '/usr/bin/mysqldump --defaults-extra-file=/root/.my.cnf --opt --single-transaction --events --routines --triggers --hex-blob --comments --all-databases | /bin/gzip > /opt/mysqldumps/backups_\$(date +\%Y-\%m-\%d_\%H:\%M:\%S).sql.gz',
+    command => '/usr/bin/mysqldump --defaults-extra-file=/root/.my.cnf --opt  --single-transaction --events --routines --triggers --hex-blob --comments --all-databases | /bin/gzip > /opt/mysqldumps/backups_\$(date +\%Y-\%m-\%d_\%H:\%M:\%S).sql.gz',
     user    => root,
     hour    => 4,
     minute  => 0
@@ -231,14 +231,19 @@ class profiles::mysql {
 
 Please note that when doing this the `rsnapshot::backup` point will only be
 backup up if there is an `rsnapshot::client` definition for the machine. Without
-that it is simply discarded.
+that it is simply discarded. This allows the use of the same mysql profile on
+both production and test machines, with backups only on the production machines
+that are also rsnapshot clients.
 
 
 ### Backing Up Machines Outside of Puppet
 
 It's also possible to add machines to the backup server that are not controlled
-by Puppet. Client side features, such as account creation and ssh key transfer,
-will not be available.
+by Puppet.
+
+There are some limitations. Client side features, such as account creation and
+ssh key transfer, will not be available. Admins will also have to create the
+appropriate access on the machine manually, since Puppet will not be able to.
 
 On the backup server define a new resource of the `rsnapshot::server::config`
 type. This object takes a combination of the rsnapshot::server and
