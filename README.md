@@ -23,7 +23,7 @@
     * [Define rsnapshot::backup](#[define-rsnapshotbackup)
     * [Class rsnapshot::client](#class-rsnapshotclient)
     * [Class rsnapshot::server](#class-rsnapshotserver)
-    * [Define rsnapshot::server::config](#[define-rsnapshotserverconfig)
+    * [Define rsnapshot::server::config](#define-rsnapshotserverconfig)
 8. [Development](#development)
 
 ## Overview
