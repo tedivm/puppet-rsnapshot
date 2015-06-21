@@ -38,7 +38,7 @@ class rsnapshot::client::user (
 
   ## Get Key for remote backup user
   if $push_ssh_key {
-    $backup_server_ip = inline_template("<% _erbout.concat(Resolv::DNS.open.getaddress('$server').to_s) %>")
+    $backup_server_ip = inline_template("<% _erbout.concat(Resolv::DNS.open.getaddress('${server}').to_s) %>")
     sshkeys::set_authorized_key { "${remote_user} to ${local_user}":
       local_user  => $local_user,
       remote_user => $remote_user,
