@@ -73,8 +73,8 @@ class rsnapshot::client (
 
   # Add User
   class { 'rsnapshot::client::user' :
-    local_user   => $client_user,
-    remote_user  => "${server_user}@${server}",
+    client_user  => $client_user,
+    server_user  => $server_user,
     server       => $server,
     use_sudo     => $use_sudo,
     push_ssh_key => $push_ssh_key,

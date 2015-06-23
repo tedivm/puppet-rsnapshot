@@ -19,7 +19,6 @@ class rsnapshot::client::user (
     $allowed_command = "${wrapper_path_norm}/${wrapper_rsync_ssh}"
   }
 
-
   # Setup Group
   group { $client_user :
     ensure         => present,
@@ -38,10 +37,11 @@ class rsnapshot::client::user (
 
   ## Get Key for remote backup user
   if $push_ssh_key {
+    $server_user_exploded = "${server_user}@${server}"
     $backup_server_ip = inline_template("<% _erbout.concat(Resolv::DNS.open.getaddress('${server}').to_s) %>")
-    sshkeys::set_authorized_key { "${server_user} to ${client_user}":
+    sshkeys::set_authorized_key { "${server_user_exploded} to ${client_user}":
       local_user  => $client_user,
-      remote_user => $server_user,
+      remote_user => $server_user_exploded,
       require     => User[$client_user],
       options     => [
         "command=\"${allowed_command}\"",
