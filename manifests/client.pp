@@ -72,7 +72,7 @@ class rsnapshot::client (
   $wrapper_path_normalized = regsubst($wrapper_path, '\/$', '')
 
   # Add User
-  class { 'rsnapshot::client::client_user' :
+  class { 'rsnapshot::client::user' :
     local_user   => $client_user,
     remote_user  => "${server_user}@${server}",
     server       => $server,
