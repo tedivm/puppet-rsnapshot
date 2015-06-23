@@ -8,7 +8,7 @@ define rsnapshot::backup (
     source_path => $source_path,
     host        => $host,
     server      => $::rsnapshot::client::server,
-    user        => $::rsnapshot::client::user,
+    client_user => $::rsnapshot::client::client_user,
     options     => $options
   }
 

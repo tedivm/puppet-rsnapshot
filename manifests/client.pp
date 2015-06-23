@@ -42,8 +42,8 @@ class rsnapshot::client (
   $excludes = {},
   $include_files = {},
   $exclude_files = {},
-  $user = $rsnapshot::params::client_user,
-  $remote_user = $rsnapshot::params::server_user,
+  $client_user = $rsnapshot::params::client_user,
+  $server_user = $rsnapshot::params::server_user,
   $backup_hourly_cron = $rsnapshot::params::backup_hourly_cron,
   $backup_time_minute = $rsnapshot::params::backup_time_minute,
   $backup_time_hour = $rsnapshot::params::backup_time_hour,
@@ -72,9 +72,9 @@ class rsnapshot::client (
   $wrapper_path_normalized = regsubst($wrapper_path, '\/$', '')
 
   # Add User
-  class { 'rsnapshot::client::user' :
-    local_user   => $user,
-    remote_user  => "${remote_user}@${server}",
+  class { 'rsnapshot::client::client_user' :
+    local_user   => $client_user,
+    remote_user  => "${server_user}@${server}",
     server       => $server,
     use_sudo     => $use_sudo,
     push_ssh_key => $push_ssh_key,
@@ -91,7 +91,7 @@ class rsnapshot::client (
   # Export client object to get picked up by the server.
   @@rsnapshot::server::config { $::fqdn:
     server              => $server,
-    user                => $user,
+    client_user         => $client_user,
     directories         => $directories,
     includes            => $includes,
     excludes            => $excludes,

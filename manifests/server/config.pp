@@ -4,8 +4,8 @@ define rsnapshot::server::config (
   $backup_path = $rsnapshot::params::server_backup_path,
   $log_path = $rsnapshot::params::server_log_path,
   $lock_path = $rsnapshot::params::lock_path,
-  $backup_user = $rsnapshot::params::server_user,
-  $remote_user = $rsnapshot::params::client_user,
+  $server_user = $rsnapshot::params::server_user,
+  $client_user = $rsnapshot::params::client_user,
   $directories = {},
   $includes = {},
   $excludes = {},
@@ -50,8 +50,6 @@ define rsnapshot::server::config (
   $backup_path_norm = regsubst($backup_path, '\/$', '')
   $wrapper_path_norm = regsubst($wrapper_path, '\/$', '')
 
-  $user = $backup_user
-
   $log_file = "${log_path_norm}/${name}-rsnapshot.log"
   $lock_file = "${lock_path_norm}/${name}-rsnapshot.pid"
   $config_file = "${config_path_norm}/${name}-rsnapshot.conf"
@@ -87,7 +85,7 @@ define rsnapshot::server::config (
   ## hourly
   cron { "rsnapshot-${name}-hourly" :
     command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} hourly",
-    user    => 'root',
+    user    => $server_user,
     hour    => $backup_hourly_cron,
     minute  => $backup_time_minute
   } ->
@@ -95,7 +93,7 @@ define rsnapshot::server::config (
   ## daily
   cron { "rsnapshot-${name}-daily" :
     command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} daily",
-    user    => 'root',
+    user    => $server_user,
     hour    => $backup_time_hour,
     minute  => $backup_time_minute
   } ->
@@ -103,7 +101,7 @@ define rsnapshot::server::config (
   ## weekly
   cron { "rsnapshot-${name}-weekly" :
     command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} weekly",
-    user    => 'root',
+    user    => $server_user,
     hour    => ($backup_time_hour + 3) % 24,
     minute  => $backup_time_minute,
     weekday => $backup_time_weekday
@@ -112,7 +110,7 @@ define rsnapshot::server::config (
   ## monthly
   cron { "rsnapshot-${name}-monthly" :
     command  => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} monthly",
-    user     => 'root',
+    user     => $server_user,
     hour     => ($backup_time_hour + 6) % 24,
     minute   => $backup_time_minute,
     monthday => $backup_time_dom
@@ -156,8 +154,8 @@ define rsnapshot::server::config (
 
   # config file
   concat { $config_file :
-    owner => $::rsnapshot::server::user,
-    group => $::rsnapshot::server::user,
+    owner => $server_user,
+    group => $server_user,,
     mode  => '0644',
     warn  => true
   }

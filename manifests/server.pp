@@ -40,7 +40,7 @@ class rsnapshot::server(
   $backup_path = $rsnapshot::params::server_backup_path,
   $log_path = $rsnapshot::params::server_log_path,
   $lock_path = $rsnapshot::params::lock_path,
-  $user = $rsnapshot::params::server_user,
+  $server_user = $rsnapshot::params::server_user,
   $no_create_root = $rsnapshot::params::no_create_root,
   $verbose = $rsnapshot::params::verbose,
   $log_level = $rsnapshot::params::log_level,
@@ -57,22 +57,22 @@ class rsnapshot::server(
   # Add logging folder
   file { $log_path :
     ensure => directory,
-    owner  => $user,
-    group  => $user
+    owner  => $server_user,
+    group  => $server_user
   }
 
   # Add config path
   file { $config_path :
     ensure => directory,
-    owner  => $user,
-    group  => $user
+    owner  => $server_user,
+    group  => $server_user
   }->
 
   # Add logging folder
   file { $backup_path :
     ensure => directory,
-    owner  => $user,
-    group  => $user
+    owner  => $server_user,
+    group  => $server_user
   }->
 
 
@@ -81,7 +81,7 @@ class rsnapshot::server(
     log_path               => $::rsnapshot::server::log_path,
     lock_path              => $::rsnapshot::server::lock_path,
     backup_path            => $::rsnapshot::server::backup_path,
-    remote_user            => $::rsnapshot::server::user,
+    server_user            => $server_user,
     no_create_root         => $::rsnapshot::server::no_create_root,
     verbose                => $::rsnapshot::server::verbose,
     loglevel               => $::rsnapshot::server::loglevel,

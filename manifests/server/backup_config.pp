@@ -3,7 +3,7 @@ define rsnapshot::server::backup_config (
   $source_path,
   $host,
   $server,
-  $user = $rsnapshot::params::client_backup_user,
+  $client_user = $rsnapshot::params::client_backup_user,
   $options = {},
   ) {
   assert_private()
