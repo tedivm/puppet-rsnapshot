@@ -155,7 +155,7 @@ define rsnapshot::server::config (
   # config file
   concat { $config_file :
     owner => $server_user,
-    group => $server_user,,
+    group => $server_user,
     mode  => '0644',
     warn  => true
   }
