@@ -1,6 +1,6 @@
 {
   "name": "tedivm-rsnapshot",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "author": "tedivm",
   "summary": "Secure and easy backups with rsnapshot.",
   "tags": [
