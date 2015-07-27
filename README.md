@@ -52,13 +52,17 @@ utilizing common Puppet patterns.
   this enables unique client settings- for instance, using different retain
   settings for different hosts.
 
+* **Backup Point resource type for true Puppet style backup control.** Rather
+  than defining each backup point in the class file, the `backup` resource
+  allows backups to be defined next to the profiles that need it.
+
 * **Support for SSH without root access.** In most cases root login is not
   available over ssh for security reasons, so this module relies instead on
-  having it's own unique user with locked down sudo access to give it the needed
+  having it's own unique user with restricted sudo access to give it the needed
   access to perform backups.
 
 * **Support for automatic key sharing.** The client machine will automatically
-  receive the ssh key from the server that it is backing up to.
+  receive the ssh key from the server and user that it is backing up to.
 
 * **Locked down ssh accounts.** All ssh accounts are locked down. SSH keys can
   only by used by the single backup host, without access to unneeded features
@@ -68,7 +72,7 @@ utilizing common Puppet patterns.
 * **Sender only rsync.** One of the biggest threats with rsync access is the
   potential to overwrite existing files on the system to gain unauthorized
   access. This module uses a wrapper script around rsync on the client side
-  which essentially makes it read only.
+  to make it a read only user.
 
 
 ## Setup
@@ -121,6 +125,10 @@ class { 'rsnapshot::client':
   ]
 }
 ```
+
+That's it! A secure backup user will be created on the client, with the
+appropriate user, ssh key, and permissions, and that machine will get it's
+configuration pushed to the backup server.
 
 
 ## Usage
