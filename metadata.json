@@ -1,18 +1,29 @@
 {
   "name": "tedivm-rsnapshot",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "tedivm",
   "summary": "Secure and easy backups with rsnapshot.",
-  "tags": ["rsnapshot", "backups"],
+  "tags": [
+    "rsnapshot",
+    "backups"
+  ],
   "license": "MIT",
   "source": "https://github.com/tedivm/puppet-rsnapshot",
   "project_page": "https://github.com/tedivm/puppet-rsnapshot",
   "issues_url": "https://github.com/tedivm/puppet-rsnapshot/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib"},
-    {"name":"puppetlabs-concat","version_requirement":"< 2.0.0"},
-    {"name":"jtopjian/sshkeys"},
-    {"name":"saz/sudo"}
+    {
+      "name": "puppetlabs-stdlib"
+    },
+    {
+      "name": "puppetlabs-concat",
+      "version_requirement": "< 2.0.0"
+    },
+    {
+      "name": "jtopjian/sshkeys"
+    },
+    {
+      "name": "saz/sudo"
+    }
   ]
 }
-
