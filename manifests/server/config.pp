@@ -95,7 +95,7 @@ define rsnapshot::server::config (
     command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} daily",
     user    => $server_user,
     hour    => $backup_time_hour,
-    minute  => $backup_time_minute
+    minute  => ($backup_time_minute + 50) % 60
   } ->
 
   ## weekly
@@ -103,7 +103,7 @@ define rsnapshot::server::config (
     command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} weekly",
     user    => $server_user,
     hour    => ($backup_time_hour + 3) % 24,
-    minute  => $backup_time_minute,
+    minute  => ($backup_time_minute + 50) % 60,
     weekday => $backup_time_weekday
   } ->
 
@@ -111,8 +111,8 @@ define rsnapshot::server::config (
   cron { "rsnapshot-${name}-monthly" :
     command  => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} monthly",
     user     => $server_user,
-    hour     => ($backup_time_hour + 6) % 24,
-    minute   => $backup_time_minute,
+    hour     => ($backup_time_hour + 7) % 24,
+    minute   => ($backup_time_minute + 50) % 60,
     monthday => $backup_time_dom
   }
 
