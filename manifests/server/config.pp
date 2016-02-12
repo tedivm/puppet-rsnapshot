@@ -67,7 +67,7 @@ define rsnapshot::server::config (
     $rsync_wrapper_processed = "--rsync-path=\"${wrapper_path_norm}/${wrapper_rsync_ssh}\""
   }
 
-  $rsync_long_args_final = "${ssh_args_processed} ${rsync_long_args} ${rsync_wrapper_processed}"
+  $rsync_long_args_final = "${ssh_args_processed} ${rsync_long_args} ${rsync_wrapper_processed}".strip
 
 
   file { $snapshot_root :
