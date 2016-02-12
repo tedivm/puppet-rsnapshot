@@ -169,6 +169,9 @@ This class has two required parameters- the backup `server`, which should be an
 fqdn, and an array of `directories` to back up. Additional options, such as
 retain rules or cronjob times, can be overridden as needed.
 
+When the retain values are set to zero, no cron entry for that specific
+period is created.
+
 ```puppet
 class { 'rsnapshot::client':
   server             => 'backups.example.com',
