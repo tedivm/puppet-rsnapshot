@@ -42,6 +42,7 @@ class rsnapshot::client::user (
     sshkeys::set_authorized_key { "${server_user_exploded} to ${client_user}":
       local_user  => $client_user,
       remote_user => $server_user_exploded,
+      target      => "/home/${client_user}/.ssh/authorized_keys",
       require     => User[$client_user],
       options     => [
         "command=\"${allowed_command}\"",
