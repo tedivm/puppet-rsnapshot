@@ -9,7 +9,8 @@ define rsnapshot::backup (
     host        => $host,
     server      => $::rsnapshot::client::server,
     client_user => $::rsnapshot::client::client_user,
-    options     => $options
+    options     => $options,
+    config_file => undef,
   }
 
 }
