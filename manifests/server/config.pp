@@ -168,7 +168,7 @@ define rsnapshot::server::config (
     warn  => true
   }
 
-  concat::fragment { "${config_file}_header" :
+  concat::fragment { "${config_file}_rsnapshot_header" :
     target  => $config_file,
     content => template('rsnapshot/config.erb'),
     order   => 01
