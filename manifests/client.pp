@@ -62,6 +62,7 @@ class rsnapshot::client (
   $rsync_long_args = $rsnapshot::params::rsync_long_args,
   $ssh_args = $rsnapshot::params::ssh_args,
   $use_sudo = $rsnapshot::params::use_sudo,
+  $setup_sudo = $rsnapshot::params::setup_sudo,
   $push_ssh_key = $rsnapshot::params::push_ssh_key,
   $wrapper_path = $rsnapshot::params::wrapper_path,
   ) inherits rsnapshot::params {
@@ -77,6 +78,7 @@ class rsnapshot::client (
     server_user  => $server_user,
     server       => $server,
     use_sudo     => $use_sudo,
+    setup_sudo   => $setup_sudo,
     push_ssh_key => $push_ssh_key,
     wrapper_path => $wrapper_path_normalized,
   }->

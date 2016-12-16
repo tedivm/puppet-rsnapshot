@@ -3,6 +3,7 @@ class rsnapshot::client::user (
   $server_user = '',
   $server = '',
   $use_sudo = true,
+  $setup_sudo = true,
   $push_ssh_key = true,
   $wrapper_path = '',
   $wrapper_sudo = $rsnapshot::params::wrapper_sudo,
@@ -55,7 +56,7 @@ class rsnapshot::client::user (
   }
 
   # Add sudo config if needed.
-  if $use_sudo {
+  if $use_sudo and $setup_sudo {
     sudo::conf { 'backup_user':
       priority => 99,
       content  => "${client_user} ALL= NOPASSWD: ${wrapper_path}/rsync_sender.sh",
