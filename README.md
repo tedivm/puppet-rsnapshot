@@ -264,6 +264,7 @@ the cronjobs needed to run backups.
 
 ```puppet
 rsnapshot::server::config { 'backupclient.example.com':
+  fqdn                   => $name,
   server                 => $::fqdn,
   config_path            => '/etc/rsnapshot',
   backup_path            => '/backups/rsnapshot',
