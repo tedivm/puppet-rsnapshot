@@ -1,5 +1,5 @@
 define rsnapshot::server::config (
-
+  $fqdn = $name,
   $config_path = $rsnapshot::params::server_config_path,
   $backup_path = $rsnapshot::params::server_backup_path,
   $log_path = $rsnapshot::params::server_log_path,
