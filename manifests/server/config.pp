@@ -78,7 +78,7 @@ define rsnapshot::server::config (
   file { $log_file :
     ensure  => present,
     require => File[$log_path]
-  } ->
+  }
 
   # cronjobs
 
