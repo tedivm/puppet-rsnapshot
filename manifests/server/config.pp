@@ -1,5 +1,5 @@
 define rsnapshot::server::config (
-
+  $fqdn = $name,
   $config_path = $rsnapshot::params::server_config_path,
   $backup_path = $rsnapshot::params::server_backup_path,
   $log_path = $rsnapshot::params::server_log_path,
@@ -78,7 +78,7 @@ define rsnapshot::server::config (
   file { $log_file :
     ensure  => present,
     require => File[$log_path]
-  } ->
+  }
 
   # cronjobs
 
@@ -168,7 +168,7 @@ define rsnapshot::server::config (
     warn  => true
   }
 
-  concat::fragment { "${config_file}_header" :
+  concat::fragment { "${config_file}_rsnapshot_header" :
     target  => $config_file,
     content => template('rsnapshot/config.erb'),
     order   => 01

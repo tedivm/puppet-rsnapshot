@@ -33,7 +33,7 @@ snapshot_root	<%= @snapshot_root %>/
 #################################
 
 <% @programs.each do |program,directory| -%>
-  <%- if directory.to_s != 'undef' -%>
+  <%- if directory and directory.to_s != 'undef' -%>
 <%= program %>	<%= directory %>
   <%- end -%>
 <% end -%>
@@ -43,7 +43,7 @@ snapshot_root	<%= @snapshot_root %>/
 ###########
 
 <% @options.each do |option,value| -%>
-  <%- if value.to_s != 'undef' -%>
+  <%- if value and value.to_s != 'undef' -%>
 <%= option %>	<%= value %>
   <%- end -%>
 <% end -%>
@@ -101,5 +101,5 @@ exclude	<%= value %>
 ###############################
 
 <% @directories.each do |source_dir| -%>
-backup  <%= @client_user %>@<%= @name %>:<%= source_dir.gsub(/\/$/, '') %>/<%= "\t" %><%= "\t\t." %>
+backup	<%= @client_user %>@<%= @fqdn %>:<%= source_dir.gsub(/\/$/, '') %>/<%= "\t" %><%= "\t\t." %>
 <% end -%>

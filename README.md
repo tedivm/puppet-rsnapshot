@@ -200,6 +200,7 @@ class { 'rsnapshot::client':
   rsync_long_args     => '--delete --numeric-ids --relative --delete-excluded'
   ssh_args            => undef,
   use_sudo            => true,
+  setup_sudo          => true,
   push_ssh_key        => true,
   wrapper_path        => '/opt/rsnapshot_wrappers/',  
 }
@@ -263,6 +264,7 @@ the cronjobs needed to run backups.
 
 ```puppet
 rsnapshot::server::config { 'backupclient.example.com':
+  fqdn                   => $name,
   server                 => $::fqdn,
   config_path            => '/etc/rsnapshot',
   backup_path            => '/backups/rsnapshot',
@@ -385,6 +387,8 @@ resource to the backup server.
 * `ssh_args`: A list of arguments to pass to ssh.
 * `use_sudo`: If enabled sudo will be used instead of direct root access for
   rsync.
+* `setup_sudo`: If enabled, use the saz/sudo module to configure sudoers for
+  rsnapshot use.
 * `push_ssh_key`: If enabled the server's ssh key will be passed to this client.
 * `wrapper_path`: The path to store the various wrapper script in.
 
