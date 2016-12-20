@@ -247,6 +247,25 @@ that it is simply discarded. This allows the use of the same mysql profile on
 both production and test machines, with backups only on the production machines
 that are also rsnapshot clients.
 
+### Back Up Pre and Post Actions
+
+When backing up clients hosting services like databases, you may want to run a
+script to snapshot or quiesce the service.  You can do this by specifying pre
+or post wrapper actions.  These will be run on the client immediately before or
+after the rsync operation.
+
+For example, to export the contents of the puppetdb database before running a
+backup of your puppetmaster:
+
+```puppet
+
+class profiles::puppetmaster {
+  rsnapshot::client {
+    cmd_wrapper_preexec  => ['/usr/sbin/puppetdb export -o /root/puppetdb.export --port 8083'],
+    cmd_wrapper_postexec => ['rm -f /root/puppetdb.export'],
+  }
+}
+```
 
 ### Backing Up Machines Outside of Puppet
 
@@ -373,6 +392,8 @@ resource to the backup server.
   to fqdn_rand, giving each host a random weekday for backups.
 * `backup_time_dom`: The day of the month that monthly backups should occur.
   This defaults to fqdn_rand, giving each host a random day of the month.
+* `cmd_wrapper_preexec`: Array of commands to run on client before backups.
+* `cmd_wrapper_postexec`: Array of commands to run on client after backups.
 * `cmd_preexec`: The path to any script that should run before backups.
 * `cmd_postexec`: The path to any script that should run after backups.
 * `cmd_client_rsync`: The path to the client side rsync binary.

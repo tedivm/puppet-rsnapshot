@@ -1,2 +1,14 @@
 #!/bin/bash -e
-exec <%= @cmd_client_rsync %> --server --sender $*
+<% if @preexec.size > 0 -%>
+{ # Redirect output to /dev/null so that the reciever isn't confused by
+  # extraneous output
+  <%= @preexec.join("\n") %>
+} > /dev/null 2>&1
+<% end -%>
+<%= @cmd_client_rsync %> --server --sender $*
+<% if @postexec.size > 0 -%>
+{ # Redirect output to /dev/null so that the reciever isn't confused by
+  # extraneous output
+<%= @postexec.join("\n") %>
+} > /dev/null 2>&1
+<% end -%>

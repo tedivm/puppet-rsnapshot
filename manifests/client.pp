@@ -49,6 +49,8 @@ class rsnapshot::client (
   $backup_time_hour = $rsnapshot::params::backup_time_hour,
   $backup_time_weekday = $rsnapshot::params::backup_time_weekday,
   $backup_time_dom = $rsnapshot::params::backup_time_dom,
+  $cmd_wrapper_preexec = [],
+  $cmd_wrapper_postexec = [],
   $cmd_preexec = $rsnapshot::params::cmd_preexec,
   $cmd_postexec = $rsnapshot::params::cmd_postexec,
   $cmd_client_rsync = $rsnapshot::params::cmd_client_rsync,
@@ -86,6 +88,8 @@ class rsnapshot::client (
   # Add Wrapper Scripts
   class { 'rsnapshot::client::wrappers' :
     wrapper_path     => $wrapper_path_normalized,
+    preexec          => $cmd_wrapper_preexec,
+    postexec         => $cmd_wrapper_postexec,
     cmd_client_rsync => $cmd_client_rsync,
     cmd_client_sudo  => $cmd_client_sudo,
   }
