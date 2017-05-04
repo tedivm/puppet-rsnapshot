@@ -35,11 +35,16 @@ class rsnapshot::client::user (
     gid            => $client_user,
     password       => '*'
   }
-
+  
   ## Get Key for remote backup user
   if $push_ssh_key {
     $server_user_exploded = "${server_user}@${server}"
-    $backup_server_ip = inline_template("<%= Addrinfo.getaddrinfo('${server}', 'ssh', nil, :STREAM).first.ip_address %>")
+
+    # I believe there is a bug in Puppet related to this change, requiring the use of .last instead of .first.
+    # See: https://tickets.puppetlabs.com/browse/SERVER-1801
+    $backup_server_ipv6 = inline_template("<%= Addrinfo.getaddrinfo('${server}', 'ssh', Socket::AF_UNSPEC, :STREAM).last.ip_address %>")
+    $backup_server_ipv4 = inline_template("<%= Addrinfo.getaddrinfo('${server}', 'ssh', Socket::AF_INET,  :STREAM).first.ip_address %>")
+
     sshkeys::set_authorized_key { "${server_user_exploded} to ${client_user}":
       local_user  => $client_user,
       remote_user => $server_user_exploded,
@@ -51,10 +56,10 @@ class rsnapshot::client::user (
         'no-agent-forwarding',
         'no-X11-forwarding',
         'no-pty',
-        "from=\"${backup_server_ip},${server}\""
+        "from=\"${server},${backup_server_ipv4},${backup_server_ipv6}\""
       ]
     }
-  }
+}
 
   # Add sudo config if needed.
   if $use_sudo and $setup_sudo {
