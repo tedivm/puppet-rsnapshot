@@ -1,6 +1,6 @@
 {
   "name": "tedivm-rsnapshot",
-  "version": "0.5.2",
+  "version": "0.6.1",
   "author": "tedivm",
   "summary": "Secure and easy backups with rsnapshot.",
   "tags": [
@@ -28,6 +28,6 @@
   "operatingsystem_support": [
     { "operatingsystem": "Debian", "operatingsystemrelease": ["6", "7"]},
     { "operatingsystem": "RedHat", "operatingsystemrelease": ["5.0", "6.0"]},
-    { "operatingsystem": "Ubuntu", "operatingsystemrelease": ["12.04", "14.04"]}
+    { "operatingsystem": "Ubuntu", "operatingsystemrelease": ["12.04", "14.04", "16.04"]}
   ]
 }
