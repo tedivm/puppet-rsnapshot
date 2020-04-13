@@ -48,6 +48,9 @@ class rsnapshot::params {
   $stop_on_stale_lockfile = undef
   $one_fs = undef
 
+  $systemd = false
+  $systemd_dir = '/etc/systemd/system'
+
   $backup_hourly_cron = '*/2'
   $backup_time_minute = fqdn_rand(59, 'rsnapshot_minute')
   $backup_time_hour = fqdn_rand(23, 'rsnapshot_hour')

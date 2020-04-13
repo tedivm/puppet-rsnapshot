@@ -1,0 +1,21 @@
+<%- | String            $description,
+      String            $on_calendar,
+      Optional[Boolean] $persistent = true,
+      Optional[String]  $unit       = undef,
+      Optional[String]  $wanted_by  = 'multi-user.target',
+| -%>
+[Unit]
+Description=<%= $description %>
+
+[Timer]
+OnCalendar=<%= $on_calendar %>
+<% unless $unit =~ Undef { -%>
+Unit=<%= $unit %>
+<% } -%>
+Persistent=<%= $persistent %>
+<% unless $persistent =~ Undef { -%>
+Persistent=<%= $persistent %>
+<% } -%>
+
+[Install]
+WantedBy=<%= $wanted_by %>

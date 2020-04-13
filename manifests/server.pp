@@ -50,6 +50,8 @@ class rsnapshot::server(
   $rsync_numtries = $rsnapshot::params::rsync_numtries,
   $stop_on_stale_lockfile = $rsnapshot::params::stop_on_stale_lockfile,
   $du_args = $rsnapshot::params::du_args,
+  $systemd = $rsnapshot::params::systemd,
+  $systemd_dir = $rsnapshot::params::systemd_dir,
   ) inherits rsnapshot::params {
 
   include rsnapshot::server::install
@@ -75,7 +77,6 @@ class rsnapshot::server(
     group  => $server_user
   }->
 
-
   Rsnapshot::Server::Config <<| server == $::fqdn |>> {
     config_path            => $::rsnapshot::server::config_path,
     log_path               => $::rsnapshot::server::log_path,
@@ -91,6 +92,23 @@ class rsnapshot::server(
     rsync_numtries         => $::rsnapshot::server::rsync_numtries,
     stop_on_stale_lockfile => $::rsnapshot::server::stop_on_stale_lockfile,
     du_args                => $::rsnapshot::server::du_args,
+    systemd                => $systemd,
+    systemd_dir            => $systemd_dir,
   }
 
+  # systemd services
+  if $systemd {
+    ['hourly', 'daily', 'weekly', 'monthly'].each |String $interval| {
+      $config_path_norm = regsubst($config_path, '\/$', '')
+
+      file { "${systemd_dir}/rsnapshot-${interval}@.service":
+        ensure => file,
+        content => epp('rsnapshot/systemd_service.epp',
+          {
+            description => "Create an rsnapshot backup for %i (${interval})",
+            command     => "${rsnapshot::server::cmd_rsnapshot} -c \"${config_path_norm}/%i-rsnapshot.conf\" ${interval}",
+          })
+      }
+    }
+  }
 }
