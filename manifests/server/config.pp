@@ -41,6 +41,8 @@ define rsnapshot::server::config (
   $wrapper_sudo = $rsnapshot::params::wrapper_sudo,
   $wrapper_rsync_sender = $rsnapshot::params::wrapper_rsync_sender,
   $wrapper_rsync_ssh = $rsnapshot::params::wrapper_rsync_ssh,
+  $systemd = $rsnapshot::params::systemd,
+  $systemd_dir = $rsnapshot::params::systemd_dir,
   ) {
 
   # Remove trailing slashes.
@@ -80,47 +82,63 @@ define rsnapshot::server::config (
     require => File[$log_path]
   }
 
+  # systemd service/timer
+  if $systemd {
+    ::rsnapshot::server::service{ $name:
+      backup_hourly_timer => regsubst($backup_hourly_cron, '\*', '0'),
+      backup_time_minute  => $backup_time_minute,
+      backup_time_hour    => $backup_time_hour,
+      backup_time_weekday => $backup_time_weekday,
+      backup_time_dom     => $backup_time_dom,
+      retain_hourly       => $retain_hourly,
+      retain_daily        => $retain_daily,
+      retain_weekly       => $retain_weekly,
+      retain_monthly      => $retain_monthly,
+      systemd_dir         => $systemd_dir,
+    }
+
   # cronjobs
-
-  ## hourly
-  if ($retain_hourly > 0) {
-    cron { "rsnapshot-${name}-hourly" :
-      command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} hourly",
-      user    => $server_user,
-      hour    => $backup_hourly_cron,
-      minute  => $backup_time_minute
+  } else {
+    ## hourly
+    if ($retain_hourly > 0) {
+      cron { "rsnapshot-${name}-hourly":
+        command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} hourly",
+        user    => $server_user,
+        hour    => $backup_hourly_cron,
+        minute  => $backup_time_minute
+      }
     }
-  }
 
-  ## daily
-  if ($retain_daily > 0) {
-    cron { "rsnapshot-${name}-daily" :
-      command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} daily",
-      user    => $server_user,
-      hour    => $backup_time_hour,
-      minute  => ($backup_time_minute + 50) % 60
+    ## daily
+    if ($retain_daily > 0) {
+      cron { "rsnapshot-${name}-daily":
+        command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} daily",
+        user    => $server_user,
+        hour    => $backup_time_hour,
+        minute  => ($backup_time_minute + 50) % 60
+      }
     }
-  }
 
-  ## weekly
-  if ($retain_weekly > 0) {
-    cron { "rsnapshot-${name}-weekly" :
-      command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} weekly",
-      user    => $server_user,
-      hour    => ($backup_time_hour + 3) % 24,
-      minute  => ($backup_time_minute + 50) % 60,
-      weekday => $backup_time_weekday
+    ## weekly
+    if ($retain_weekly > 0) {
+      cron { "rsnapshot-${name}-weekly":
+        command => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} weekly",
+        user    => $server_user,
+        hour    => ($backup_time_hour + 3) % 24,
+        minute  => ($backup_time_minute + 50) % 60,
+        weekday => $backup_time_weekday
+      }
     }
-  }
 
-  ## monthly
-  if ($retain_monthly > 0) {
-    cron { "rsnapshot-${name}-monthly" :
-      command  => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} monthly",
-      user     => $server_user,
-      hour     => ($backup_time_hour + 7) % 24,
-      minute   => ($backup_time_minute + 50) % 60,
-      monthday => $backup_time_dom
+    ## monthly
+    if ($retain_monthly > 0) {
+      cron { "rsnapshot-${name}-monthly":
+        command  => "${rsnapshot::server::cmd_rsnapshot} -c ${config_file} monthly",
+        user     => $server_user,
+        hour     => ($backup_time_hour + 7) % 24,
+        minute   => ($backup_time_minute + 50) % 60,
+        monthday => $backup_time_dom
+      }
     }
   }
 
